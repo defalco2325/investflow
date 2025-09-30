@@ -89,7 +89,7 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
                   <RadioGroupItem value={tier.amount.toString()} id={`tier-${tier.amount}`} />
                   <div>
                     <p className="font-semibold">{tier.label}</p>
-                    <p className="text-sm text-red-500 line-through">
+                    <p className="text-sm text-muted-foreground line-through decoration-red-500">
                       ${(tier.amount / SHARE_PRICE).toLocaleString('en-US', {maximumFractionDigits: 0})}
                     </p>
                     <p className="text-sm text-success">
@@ -151,7 +151,7 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
             <div className="flex justify-between items-center">
               <p className="text-sm text-muted-foreground">Effective Share Price</p>
               <p className="text-lg font-semibold">
-                <span className="text-red-500 line-through text-sm mr-2">
+                <span className="text-muted-foreground line-through decoration-red-500 text-sm mr-2">
                   {formatCurrency(SHARE_PRICE)}
                 </span>
                 <span className="text-success">{formatCurrency(calculation.effectivePrice)}</span>
