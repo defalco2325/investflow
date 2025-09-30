@@ -44,7 +44,7 @@ export default function InvestmentForm() {
 
   return (
     <div className="min-h-screen py-8 px-4 bg-background">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-2xl mx-auto">
         {/* Accordion Form */}
         <motion.div
           className="bg-card rounded-lg shadow-sm border border-border overflow-hidden"
