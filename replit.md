@@ -2,119 +2,150 @@
 
 ## Overview
 
-This is a Regulation CF investment platform for Satoshi Reserve, built as a full-stack TypeScript application. The platform allows investors to submit investment applications through a multi-step form that collects investor profiles, investment amounts with tiered bonus structures, and detailed investor information for various entity types (individual, joint, corporation, trust, IRA). The application features a React frontend with shadcn/ui components and an Express backend with PostgreSQL database storage.
+This is a **frontend-only** Regulation CF investment form for Satoshi Reserve, built with React, TypeScript, and Vite. The platform features a multi-step accordion-style form that collects investor profiles, investment amounts with tiered bonus structures, and detailed investor information for various entity types (Individual, Joint, Corporation, Trust, IRA).
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
 
-## System Architecture
+## Architecture
 
-### Frontend Architecture
+### Frontend Stack
 
-**Framework**: React with TypeScript, built using Vite
+**Framework**: React 18 with TypeScript, built using Vite
 - **Routing**: Wouter for lightweight client-side routing
 - **State Management**: React hooks with custom `useInvestmentForm` hook for complex form state
 - **UI Components**: shadcn/ui component library (Radix UI primitives with Tailwind CSS)
 - **Forms**: React Hook Form with Zod validation for type-safe form handling
-- **Data Fetching**: TanStack Query (React Query) for server state management
-- **Styling**: Tailwind CSS with custom design tokens and CSS variables for theming
+- **Data Fetching**: TanStack Query (React Query) for any future API integration
+- **Styling**: Tailwind CSS with custom design tokens and CSS variables
 - **Animations**: Framer Motion for smooth transitions and interactive elements
 
-**Design Pattern**: The frontend uses a component-based architecture with:
-- Page components in `client/src/pages/`
-- Reusable UI components in `client/src/components/ui/`
-- Feature-specific components in `client/src/components/investment-form/`
-- Custom hooks for shared logic in `client/src/hooks/`
-- Shared validation schemas in `client/src/lib/validation-schemas.ts`
+### Application Features
 
-### Backend Architecture
+**Investment Form Flow**:
+1. **Investor Profile**: Name, email, phone, accredited investor status (required dropdown), consent
+2. **Investment Amount**: 7 pricing tiers ($1,500 to $99,500) with bonus shares (5% to 120%), custom amount input
+3. **Investor Information**: Dynamic forms based on investor type with international country support
 
-**Framework**: Express.js with TypeScript
-- **API Pattern**: RESTful endpoints under `/api` prefix
-- **Request Handling**: JSON body parsing with raw body preservation for webhook verification
-- **Development Setup**: Vite middleware integration for HMR in development
-- **Production Build**: esbuild for bundling the server code
-
-**Key Design Decisions**:
-- Monorepo structure with shared types between client and server
-- Custom logging middleware for API request/response tracking
-- Separation of route definitions (`server/routes.ts`) from server setup (`server/index.ts`)
-
-### Data Storage
-
-**Database**: PostgreSQL via Neon serverless driver
-- **ORM**: Drizzle ORM for type-safe database operations
-- **Schema Location**: `shared/schema.ts` for shared type definitions
-- **Migrations**: Drizzle Kit for schema migrations in `migrations/` directory
-
-**Storage Abstraction**: 
-- `IStorage` interface defines CRUD operations
-- `MemStorage` class provides in-memory implementation for development/testing
-- Database schema includes:
-  - `users` table for authentication
-  - `investmentSubmissions` table for investment applications with fields for personal info, investment calculations, and investor-specific data stored as JSONB
-
-**Design Rationale**: The storage abstraction allows easy switching between in-memory and database implementations, useful for testing and development.
-
-### Schema Design
-
-**Investment Submission Schema**:
-- Stores investor profile (name, email, phone, accreditation status)
-- Captures investment amount and calculates share allocations with bonus tiers
-- Uses JSONB field for flexible investor information storage (different structures for individual, joint, corporation, trust, IRA)
-- Tracks bonus percentage and effective share price calculations
-- Records submission timestamp
-
-**Validation Strategy**: 
-- Zod schemas for runtime validation (`drizzle-zod` for schema generation)
-- Separate validation schemas for each form step and investor type
-- Shared schema definitions between client and server for type safety
+**Key Features**:
+- Accordion-style navigation with free movement between steps
+- Real-time investment calculations showing base shares, bonus shares, and effective price
+- Dynamic address fields based on country selection:
+  - United States: State dropdown with all US states, "Zip Code" label
+  - Canada: Province dropdown with all Canadian provinces, "Postal Code" label
+  - Other countries (38+ supported): Text input for state/region, "Postal/Zip Code" label
+- Edit icons on completed steps for easy revision
+- Comprehensive validation with clear error messages
+- Responsive design for all screen sizes
+- Premium animations and transitions
 
 ### Investment Calculation Logic
 
-**Tiered Bonus System**: 8 investment tiers from $999.90 to $99,500 with bonus percentages ranging from 0% to 120%
+**Tiered Bonus System**: 
 - Base share price: $0.30
-- Bonus shares calculated as percentage of base shares
-- Effective price computed from total investment divided by total shares
-- Real-time calculation updates as user adjusts investment amount
+- 7 tiers ranging from $1,500 (5% bonus) to $99,500 (120% bonus)
+- Real-time calculation of base shares, bonus shares, total shares, and effective price
+- Tier selection syncs with investment amount input field
 
-**Implementation**: Centralized calculation logic in `client/src/lib/investment-calculations.ts` ensures consistency across components.
+**Implementation**: Centralized calculation logic in `client/src/lib/investment-calculations.ts`
 
-## External Dependencies
+### International Support
 
-### UI and Component Libraries
-- **shadcn/ui**: Complete component library built on Radix UI primitives
-- **Radix UI**: Accessible, unstyled UI primitives (dialogs, dropdowns, forms, etc.)
-- **Tailwind CSS**: Utility-first CSS framework with custom configuration
-- **Lucide React**: Icon library
-- **Framer Motion**: Animation library
+**Countries**: 38+ countries supported for Reg S offering including:
+- North America: United States, Canada, Mexico
+- Europe: UK, Germany, France, Italy, Spain, Netherlands, Belgium, Switzerland, and more
+- Asia-Pacific: Australia, Singapore, Hong Kong, Japan, South Korea, India
+- Middle East: UAE, Saudi Arabia, Israel
+- Latin America: Brazil, Argentina, Chile, Colombia, Peru
+- "Other" option for unlisted countries
 
-### Form Management
-- **React Hook Form**: Form state management and validation
-- **@hookform/resolvers**: Zod resolver integration for React Hook Form
-- **Zod**: Schema validation library
-- **drizzle-zod**: Generates Zod schemas from Drizzle database schemas
+### File Structure
 
-### Database and ORM
-- **@neondatabase/serverless**: Serverless PostgreSQL driver for Neon
-- **Drizzle ORM**: TypeScript ORM for SQL databases
-- **Drizzle Kit**: Migration and schema management tools
+```
+client/
+  src/
+    components/
+      investment-form/       # Main form components
+        forms/               # Individual investor type forms
+      ui/                    # shadcn/ui components
+    hooks/                   # Custom React hooks
+    lib/                     # Utility functions and calculations
+      countries.ts           # Country/region data and helpers
+      investment-calculations.ts  # Investment math logic
+      validation-schemas.ts  # Zod validation schemas
+    types/                   # TypeScript type definitions
+    pages/                   # Route pages
+    App.tsx                 # Main app component
+```
 
-### Backend Framework
-- **Express**: Web application framework
-- **connect-pg-simple**: PostgreSQL session store for Express
+## Development
+
+### Running the Application
+
+To start the development server:
+```bash
+./dev.sh
+```
+
+Or directly:
+```bash
+npx vite
+```
+
+The application will be available at `http://localhost:5000`
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+Outputs to `dist/public/`
+
+## Key Dependencies
+
+### UI and Forms
+- React 18 - Frontend framework
+- shadcn/ui & Radix UI - Component library
+- React Hook Form - Form state management
+- Zod - Schema validation
+- Tailwind CSS - Styling
+- Framer Motion - Animations
+
+### Routing and State
+- Wouter - Client-side routing
+- TanStack Query - Server state management (for future API integration)
 
 ### Development Tools
-- **Vite**: Build tool and development server
-- **@vitejs/plugin-react**: React plugin for Vite
-- **@replit/vite-plugin-runtime-error-modal**: Error overlay for Replit
-- **TypeScript**: Type safety across the entire stack
-- **esbuild**: JavaScript bundler for production builds
+- Vite - Build tool and dev server
+- TypeScript - Type safety
+- Tailwind CSS - Utility-first styling
 
-### Routing and Data Fetching
-- **Wouter**: Lightweight routing library
-- **@tanstack/react-query**: Server state management and data fetching
+## Form Data Flow
 
-### Date Handling
-- **date-fns**: Modern date utility library
+1. User fills out Investor Profile → State updated via `updateInvestorProfile()`
+2. User selects Investment Amount → Calculations performed → State updated
+3. User selects investor type → Appropriate form rendered
+4. User submits final form → Data logged to console (frontend-only)
+
+All form data is stored in React state and can be logged or sent to an API endpoint when backend integration is added.
+
+## Design Features
+
+- Maximum form width: 640px (max-w-xl) for optimal readability
+- Accordion-style steps with unrestricted navigation
+- Orange accent color (#FB8037) for badges and highlights
+- Check marks on completed steps with edit icons for revisions
+- Premium animations with staggered field appearances
+- Mobile-first responsive design
+- Dark mode support via next-themes
+
+## Future Enhancements
+
+Since this is currently a frontend-only application, future enhancements could include:
+- Backend API integration for form submission
+- Database storage for investment applications
+- Payment processing integration
+- Email notifications
+- Admin dashboard for reviewing applications
