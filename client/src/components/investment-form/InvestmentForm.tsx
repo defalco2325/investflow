@@ -46,7 +46,18 @@ export default function InvestmentForm() {
                   </div>
                   <div className="flex items-center space-x-1 sm:space-x-2">
                     {formManager.isStepComplete(1) ? (
-                      <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-success" data-testid="step-1-complete" />
+                      <>
+                        <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-success" data-testid="step-1-complete" />
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          className="p-1 hover:bg-secondary rounded"
+                          data-testid="edit-step-1"
+                        >
+                          <Edit2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                        </button>
+                      </>
                     ) : (
                       <span className="text-xs sm:text-sm text-muted-foreground hidden sm:inline">Incomplete</span>
                     )}
@@ -110,7 +121,18 @@ export default function InvestmentForm() {
                   </div>
                   <div className="flex items-center space-x-1 sm:space-x-2">
                     {formManager.isStepComplete(3) && (
-                      <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-success" data-testid="step-3-complete" />
+                      <>
+                        <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-success" data-testid="step-3-complete" />
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          className="p-1 hover:bg-secondary rounded"
+                          data-testid="edit-step-3"
+                        >
+                          <Edit2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                        </button>
+                      </>
                     )}
                   </div>
                 </div>
