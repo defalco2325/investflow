@@ -151,7 +151,7 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
             <div className="flex justify-between items-center">
               <p className="text-sm text-muted-foreground">Effective Share Price</p>
               <p className="text-lg font-semibold">
-                <span className="text-muted-foreground line-through text-sm mr-2">
+                <span className="text-red-500 line-through text-sm mr-2">
                   {formatCurrency(SHARE_PRICE)}
                 </span>
                 <span className="text-success">{formatCurrency(calculation.effectivePrice)}</span>
