@@ -21,6 +21,27 @@ export default function InvestmentForm() {
     }
   }, [formManager.completedSteps]);
 
+  // Handle accordion value change with gating
+  const handleAccordionChange = (value: string) => {
+    // Allow opening step-1 anytime
+    if (value === "step-1") {
+      setOpenStep(value);
+      return;
+    }
+    
+    // Only allow opening step-2 if step-1 is complete
+    if (value === "step-2" && !formManager.isStepComplete(1)) {
+      return;
+    }
+    
+    // Only allow opening step-3 if step-2 is complete
+    if (value === "step-3" && !formManager.isStepComplete(2)) {
+      return;
+    }
+    
+    setOpenStep(value);
+  };
+
   return (
     <div className="min-h-screen py-8 px-4 bg-background">
       <div className="max-w-2xl mx-auto">
@@ -31,7 +52,7 @@ export default function InvestmentForm() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Accordion type="single" collapsible value={openStep} onValueChange={setOpenStep} className="w-full">
+          <Accordion type="single" collapsible value={openStep} onValueChange={handleAccordionChange} className="w-full">
             {/* Step 1: Investor Profile */}
             <AccordionItem value="step-1" className="border-b border-border">
               <AccordionTrigger className="px-6 py-4 hover:no-underline">
@@ -57,7 +78,11 @@ export default function InvestmentForm() {
 
             {/* Step 2: Investment Amount */}
             <AccordionItem value="step-2" className="border-b border-border">
-              <AccordionTrigger className="px-6 py-4 hover:no-underline">
+              <AccordionTrigger 
+                className={`px-6 py-4 hover:no-underline ${
+                  !formManager.isStepComplete(1) ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              >
                 <div className="flex items-center justify-between w-full pr-4">
                   <div className="flex items-center space-x-3">
                     <span className="text-lg font-semibold">2. Investment Amount</span>
@@ -94,7 +119,11 @@ export default function InvestmentForm() {
 
             {/* Step 3: Investor Information */}
             <AccordionItem value="step-3" className="border-b-0">
-              <AccordionTrigger className="px-6 py-4 hover:no-underline">
+              <AccordionTrigger 
+                className={`px-6 py-4 hover:no-underline ${
+                  !formManager.isStepComplete(2) ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              >
                 <div className="flex items-center justify-between w-full pr-4">
                   <div className="flex items-center space-x-3">
                     <span className="text-lg font-semibold">3. Investor Information</span>
