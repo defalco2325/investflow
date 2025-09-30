@@ -30,7 +30,7 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
 
   const handleTierSelect = (amount: number) => {
     setSelectedAmount(amount);
-    setCustomAmount("");
+    setCustomAmount(amount.toString());
   };
 
   const handleCustomAmountChange = (value: string) => {

@@ -10,23 +10,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { COUNTRIES, getRegionLabel, getRegionOptions, getPostalCodeLabel } from "@/lib/countries";
 
 interface CorporationFormProps {
   formManager: UseInvestmentFormReturn;
   onUpdate: (data: InvestorInformationData) => void;
 }
-
-const US_STATES = [
-  "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
-  "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
-  "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
-  "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
-  "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
-  "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
-  "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
-];
-
-const COUNTRIES = ["United States", "Canada"];
 
 const ENTITY_TYPES = [
   "C Corporation",
@@ -212,12 +201,12 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
               name="zipCode"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Zip Code</FormLabel>
+                  <FormLabel>{getPostalCodeLabel(form.watch("country") || "United States")}</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       className="premium-input"
-                      placeholder="Zip Code"
+                      placeholder={getPostalCodeLabel(form.watch("country") || "United States")}
                       data-testid="input-corporation-zip-code"
                     />
                   </FormControl>
@@ -230,36 +219,17 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
-              name="state"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>State</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="premium-input" data-testid="select-corporation-state">
-                        <SelectValue placeholder="Select State" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {US_STATES.map((state) => (
-                        <SelectItem key={state} value={state}>
-                          {state}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="country"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Country</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select 
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      form.setValue("state", "");
+                    }} 
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger className="premium-input" data-testid="select-corporation-country">
                         <SelectValue placeholder="Select Country" />
@@ -276,6 +246,48 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
                   <FormMessage />
                 </FormItem>
               )}
+            />
+
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => {
+                const selectedCountry = form.watch("country") || "United States";
+                const regionOptions = getRegionOptions(selectedCountry);
+                const regionLabel = getRegionLabel(selectedCountry);
+                
+                return (
+                  <FormItem>
+                    <FormLabel>{regionLabel}</FormLabel>
+                    {regionOptions.length > 0 ? (
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="premium-input" data-testid="select-corporation-state">
+                            <SelectValue placeholder={`Select ${regionLabel}`} />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {regionOptions.map((option) => (
+                            <SelectItem key={option} value={option}>
+                              {option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <FormControl>
+                        <Input
+                          {...field}
+                          className="premium-input"
+                          placeholder={regionLabel}
+                          data-testid="input-corporation-state-region"
+                        />
+                      </FormControl>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
             />
           </div>
 

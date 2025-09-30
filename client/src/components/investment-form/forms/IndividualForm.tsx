@@ -12,23 +12,12 @@ import { HelpCircle } from "lucide-react";
 import { useState } from "react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { COUNTRIES, getRegionLabel, getRegionOptions, getPostalCodeLabel } from "@/lib/countries";
 
 interface IndividualFormProps {
   formManager: UseInvestmentFormReturn;
   onUpdate: (data: InvestorInformationData) => void;
 }
-
-const US_STATES = [
-  "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
-  "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
-  "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
-  "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico",
-  "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
-  "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
-  "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
-];
-
-const COUNTRIES = ["United States", "Canada"];
 
 export default function IndividualForm({ formManager, onUpdate }: IndividualFormProps) {
   const { formData } = formManager;
@@ -160,12 +149,12 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
               name="zipCode"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Zip Code</FormLabel>
+                  <FormLabel>{getPostalCodeLabel(form.watch("country") || "United States")}</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       className="bg-input border-border"
-                      placeholder="Zip Code"
+                      placeholder={getPostalCodeLabel(form.watch("country") || "United States")}
                       data-testid="input-zip-code"
                     />
                   </FormControl>
@@ -178,36 +167,17 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
-              name="state"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>State</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="bg-input border-border" data-testid="select-state">
-                        <SelectValue placeholder="Select State" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {US_STATES.map((state) => (
-                        <SelectItem key={state} value={state}>
-                          {state}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="country"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Country</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select 
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      form.setValue("state", "");
+                    }} 
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger className="bg-input border-border" data-testid="select-country">
                         <SelectValue placeholder="Select Country" />
@@ -224,6 +194,48 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
                   <FormMessage />
                 </FormItem>
               )}
+            />
+
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => {
+                const selectedCountry = form.watch("country") || "United States";
+                const regionOptions = getRegionOptions(selectedCountry);
+                const regionLabel = getRegionLabel(selectedCountry);
+                
+                return (
+                  <FormItem>
+                    <FormLabel>{regionLabel}</FormLabel>
+                    {regionOptions.length > 0 ? (
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="bg-input border-border" data-testid="select-state">
+                            <SelectValue placeholder={`Select ${regionLabel}`} />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {regionOptions.map((option) => (
+                            <SelectItem key={option} value={option}>
+                              {option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <FormControl>
+                        <Input
+                          {...field}
+                          className="bg-input border-border"
+                          placeholder={regionLabel}
+                          data-testid="input-state-region"
+                        />
+                      </FormControl>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
             />
           </div>
 
@@ -247,45 +259,44 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
               )}
             />
 
-            <div className="flex justify-end items-center">
-              <Button
-                type="button"
-                variant="link"
-                className="text-xs text-primary hover:underline p-0"
-                onClick={() => toast({
-                  title: "Information Required",
-                  description: "This information is required for regulatory compliance and investor verification purposes.",
-                })}
-                data-testid="button-why-info-needed"
-              >
-                <HelpCircle className="w-3 h-3 mr-1" />
-                Why do we need this information?
-              </Button>
-            </div>
+            <FormField
+              control={form.control}
+              name="tinOrSSN"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center justify-between">
+                    <FormLabel>TIN or SSN</FormLabel>
+                    <Button
+                      type="button"
+                      variant="link"
+                      className="text-xs text-primary hover:underline p-0 h-auto"
+                      onClick={() => toast({
+                        title: "Information Required",
+                        description: "This information is required for regulatory compliance and investor verification purposes.",
+                      })}
+                      data-testid="button-why-info-needed"
+                    >
+                      <HelpCircle className="w-3 h-3 mr-1" />
+                      Why do we need this info?
+                    </Button>
+                  </div>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className="bg-input border-border"
+                      placeholder="TIN or SSN"
+                      onChange={(e) => {
+                        const formatted = formatSSN(e.target.value);
+                        field.onChange(formatted);
+                      }}
+                      data-testid="input-tin-ssn"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
-
-          <FormField
-            control={form.control}
-            name="tinOrSSN"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>TIN or SSN</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    className="bg-input border-border"
-                    placeholder="TIN or SSN"
-                    onChange={(e) => {
-                      const formatted = formatSSN(e.target.value);
-                      field.onChange(formatted);
-                    }}
-                    data-testid="input-tin-ssn"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
 
           <Button 
             type="submit" 
