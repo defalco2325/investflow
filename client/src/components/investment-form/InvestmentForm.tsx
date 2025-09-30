@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Coins, CheckCircle, Edit2 } from "lucide-react";
+import { CheckCircle, Edit2 } from "lucide-react";
 import { useInvestmentForm } from "@/hooks/use-investment-form";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import InvestorProfile from "./InvestorProfile";
@@ -24,27 +24,6 @@ export default function InvestmentForm() {
   return (
     <div className="min-h-screen py-8 px-4 bg-background">
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <motion.header 
-          className="text-center mb-8"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center mr-3">
-              <Coins className="text-primary-foreground text-sm" />
-            </div>
-            <h1 className="text-2xl font-semibold text-foreground">satoshi reserve</h1>
-          </div>
-          <h2 className="text-3xl font-bold text-foreground mb-2">
-            Satoshi Reserve Regulation CF Investment Opportunity
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            You're on the fast track to becoming an official Satoshi Reserve shareholder.
-          </p>
-        </motion.header>
-
         {/* Accordion Form */}
         <motion.div
           className="bg-card rounded-lg shadow-sm border border-border overflow-hidden"
