@@ -144,8 +144,8 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
             </div>
             <div className="flex justify-between items-center">
               <p className="text-sm text-muted-foreground">Bonus Shares</p>
-              <p className="text-lg font-semibold text-success">
-                ({calculation.bonusPercentage}%) {formatNumber(calculation.bonusShares)}
+              <p className="text-lg font-semibold">
+                <span className="text-success">({calculation.bonusPercentage}%)</span> {formatNumber(calculation.bonusShares)}
               </p>
             </div>
             <div className="flex justify-between items-center">
