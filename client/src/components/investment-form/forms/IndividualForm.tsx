@@ -289,14 +289,14 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
 
           <Button 
             type="submit" 
-            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-6 rounded-lg transition-all text-lg"
+            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-4 sm:py-6 rounded-lg transition-all text-base sm:text-lg"
             disabled={isSubmitting}
             data-testid="button-submit-investment"
           >
             {isSubmitting ? "Submitting..." : "Continue"}
           </Button>
           
-          <p className="text-xs text-muted-foreground text-center">
+          <p className="text-[10px] sm:text-xs text-muted-foreground text-center">
             You will be forwarded to Deal Maker to complete your transaction
           </p>
         </form>

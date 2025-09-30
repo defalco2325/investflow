@@ -48,15 +48,15 @@ export default function InvestorInformation({ formManager }: InvestorInformation
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Investor Type Selection */}
       <div>
-        <p className="text-sm text-muted-foreground mb-4">Select an investor type.</p>
+        <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">Select an investor type.</p>
         
         <RadioGroup
           value={selectedType}
           onValueChange={(value) => setSelectedType(value as InvestorType)}
-          className="space-y-3"
+          className="space-y-2 sm:space-y-3"
         >
           {investorTypes.map((type) => {
             const isSelected = selectedType === type.value;
@@ -64,7 +64,7 @@ export default function InvestorInformation({ formManager }: InvestorInformation
             return (
               <div
                 key={type.value}
-                className={`flex items-center p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                className={`flex items-center p-3 sm:p-4 rounded-lg border-2 cursor-pointer transition-all ${
                   isSelected 
                     ? 'border-primary bg-primary/5' 
                     : 'border-border hover:border-primary/50'
@@ -75,11 +75,11 @@ export default function InvestorInformation({ formManager }: InvestorInformation
                 <RadioGroupItem 
                   value={type.value} 
                   id={type.value}
-                  className="mr-4"
+                  className="mr-3 sm:mr-4"
                 />
                 <Label 
                   htmlFor={type.value} 
-                  className="cursor-pointer flex-1 font-normal"
+                  className="cursor-pointer flex-1 font-normal text-sm sm:text-base"
                 >
                   {type.label}
                 </Label>
@@ -88,7 +88,7 @@ export default function InvestorInformation({ formManager }: InvestorInformation
           })}
         </RadioGroup>
         
-        <p className="text-xs text-muted-foreground mt-2 text-right">
+        <p className="text-[10px] sm:text-xs text-muted-foreground mt-2 text-right">
           No P.O. Boxes Allowed
         </p>
       </div>
