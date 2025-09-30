@@ -97,7 +97,7 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
                     </p>
                   </div>
                 </div>
-                <div className="bg-primary text-primary-foreground px-4 py-2 rounded-full font-semibold text-sm whitespace-nowrap">
+                <div className="bg-[#D4A574] text-black px-4 py-2 rounded-full font-semibold text-sm whitespace-nowrap">
                   {tier.bonusPercentage}% Bonus Shares
                 </div>
               </div>
