@@ -11,7 +11,6 @@ interface InvestmentAmountProps {
   formManager: UseInvestmentFormReturn;
 }
 
-// Specific pricing tiers from the design
 const PRICING_TIERS = [
   { amount: 1500, bonusPercentage: 5, label: "$1,500" },
   { amount: 3500, bonusPercentage: 10, label: "$3,500" },
@@ -50,13 +49,35 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
     }
   };
 
-  // Find selected tier for bonus percentage display
   const selectedTier = PRICING_TIERS.find(t => t.amount === selectedAmount);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 0.3, ease: "easeOut" }
+    }
+  };
+
   return (
-    <div className="space-y-6">
-      {/* Share Price and Min Investment */}
-      <div className="flex justify-between items-center text-sm">
+    <motion.div 
+      className="space-y-6"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.div variants={itemVariants} className="flex justify-between items-center text-sm">
         <div>
           <p className="text-muted-foreground">Share Price</p>
           <p className="font-semibold">{formatCurrency(SHARE_PRICE)}</p>
@@ -65,21 +86,23 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
           <p className="text-muted-foreground">Min Investment</p>
           <p className="font-semibold">{formatCurrency(999.90)}</p>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Pricing Tiers */}
       <RadioGroup value={selectedAmount.toString()} onValueChange={(val) => handleTierSelect(Number(val))}>
-        <div className="space-y-3">
+        <motion.div className="space-y-3" variants={containerVariants}>
           {PRICING_TIERS.map((tier) => {
             const isSelected = selectedAmount === tier.amount;
             const tierCalc = calculateInvestment(tier.amount);
             
             return (
-              <div
+              <motion.div
                 key={tier.amount}
+                variants={itemVariants}
+                whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                whileTap={{ scale: 0.98 }}
                 className={`relative flex items-center justify-between p-4 rounded-lg border-2 transition-all cursor-pointer ${
                   isSelected 
-                    ? 'border-primary bg-primary/5' 
+                    ? 'border-primary bg-primary/5 shadow-md' 
                     : 'border-border hover:border-primary/50'
                 }`}
                 onClick={() => handleTierSelect(tier.amount)}
@@ -100,14 +123,13 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
                 <div className="bg-[#E9A961] text-black px-4 py-2 rounded-full font-semibold text-sm whitespace-nowrap">
                   {tier.bonusPercentage}% Bonus Shares
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </RadioGroup>
 
-      {/* Custom Amount Input */}
-      <div className="space-y-2">
+      <motion.div variants={itemVariants} className="space-y-2">
         <Label htmlFor="custom-amount">Enter investment amount</Label>
         <div className="relative">
           <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground font-semibold">
@@ -118,14 +140,13 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
             type="text"
             value={customAmount}
             onChange={(e) => handleCustomAmountChange(e.target.value)}
-            className="pl-8 py-6 text-lg bg-input border-border"
+            className="pl-8 py-6 text-lg bg-input border-border transition-all duration-200 focus:ring-2 focus:ring-primary/20"
             placeholder="25000"
             data-testid="input-custom-amount"
           />
         </div>
-      </div>
+      </motion.div>
 
-      {/* Calculation Summary */}
       {selectedAmount >= 999.90 && (
         <motion.div
           className="space-y-4 pt-4 border-t border-border"
@@ -166,14 +187,16 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
         </motion.div>
       )}
 
-      <Button 
-        onClick={handleContinue}
-        className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-6 rounded-lg transition-all text-lg"
-        disabled={selectedAmount < 999.90}
-        data-testid="button-continue-step2"
-      >
-        Continue
-      </Button>
-    </div>
+      <motion.div variants={itemVariants}>
+        <Button 
+          onClick={handleContinue}
+          className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-6 rounded-lg transition-all duration-200 text-lg hover:scale-[1.02] active:scale-[0.98]"
+          disabled={selectedAmount < 999.90}
+          data-testid="button-continue-step2"
+        >
+          Continue
+        </Button>
+      </motion.div>
+    </motion.div>
   );
 }
