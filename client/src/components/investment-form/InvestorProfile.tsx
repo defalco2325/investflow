@@ -200,16 +200,11 @@ export default function InvestorProfile({ formManager }: InvestorProfileProps) {
                       <SelectItem value="no">No</SelectItem>
                     </SelectContent>
                   </Select>
-                  {field.value === true && (
-                    <motion.span 
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: "spring", stiffness: 500, damping: 25 }}
-                      className="bg-[#FB8037] text-white text-xs font-semibold px-3 py-1 rounded whitespace-nowrap"
-                    >
-                      REQUIRED
-                    </motion.span>
-                  )}
+                  <span 
+                    className="bg-[#FB8037] text-white text-xs font-semibold px-3 py-1 rounded whitespace-nowrap"
+                  >
+                    REQUIRED
+                  </span>
                 </div>
                 <FormMessage />
               </FormItem>
