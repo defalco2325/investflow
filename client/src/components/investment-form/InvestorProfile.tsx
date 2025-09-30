@@ -204,7 +204,7 @@ export default function InvestorProfile({ formManager }: InvestorProfileProps) {
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ type: "spring", stiffness: 500, damping: 25 }}
-                            className="bg-[#D4A574] text-black text-xs font-semibold px-3 py-1 rounded"
+                            className="bg-[#FB8037] text-white text-xs font-semibold px-3 py-1 rounded"
                           >
                             REQUIRED
                           </motion.span>
