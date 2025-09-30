@@ -8,7 +8,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { MapPin, Building, Globe, Calendar, CreditCard, PiggyBank, Hash } from "lucide-react";
 import { useState } from "react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -137,15 +136,12 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
                 <FormItem>
                   <FormLabel>Custodian Name</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <PiggyBank className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Custodian Name"
-                        data-testid="input-custodian-name"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="Custodian Name"
+                      data-testid="input-custodian-name"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -160,15 +156,12 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
               <FormItem>
                 <FormLabel>IRA Account Number</FormLabel>
                 <FormControl>
-                  <div className="relative">
-                    <Hash className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                    <Input
-                      {...field}
-                      className="premium-input"
-                      placeholder="Account Number"
-                      data-testid="input-account-number"
-                    />
-                  </div>
+                  <Input
+                    {...field}
+                    className="premium-input"
+                    placeholder="Account Number"
+                    data-testid="input-account-number"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -184,15 +177,12 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
                 <FormItem>
                   <FormLabel>Street Address</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Street Address"
-                        data-testid="input-ira-street-address"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="Street Address"
+                      data-testid="input-ira-street-address"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -206,15 +196,12 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
                 <FormItem>
                   <FormLabel>Apt. or Unit (Optional)</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Apt. or Unit"
-                        data-testid="input-ira-apartment-unit"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="Apt. or Unit"
+                      data-testid="input-ira-apartment-unit"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -230,15 +217,12 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
                 <FormItem>
                   <FormLabel>City</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="City"
-                        data-testid="input-ira-city"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="City"
+                      data-testid="input-ira-city"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -252,15 +236,12 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
                 <FormItem>
                   <FormLabel>Zip Code</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Zip Code"
-                        data-testid="input-ira-zip-code"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="Zip Code"
+                      data-testid="input-ira-zip-code"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -329,15 +310,12 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
                 <FormItem>
                   <FormLabel>Date of Birth</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        type="date"
-                        className="premium-input"
-                        data-testid="input-ira-date-of-birth"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      type="date"
+                      className="premium-input"
+                      data-testid="input-ira-date-of-birth"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -351,19 +329,16 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
                 <FormItem>
                   <FormLabel>TIN or SSN</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="TIN or SSN"
-                        onChange={(e) => {
-                          const formatted = formatSSN(e.target.value);
-                          field.onChange(formatted);
-                        }}
-                        data-testid="input-ira-tin-ssn"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="TIN or SSN"
+                      onChange={(e) => {
+                        const formatted = formatSSN(e.target.value);
+                        field.onChange(formatted);
+                      }}
+                      data-testid="input-ira-tin-ssn"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

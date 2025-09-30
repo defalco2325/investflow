@@ -9,9 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { MapPin, Building, Globe, Calendar, CreditCard, HelpCircle, Users } from "lucide-react";
+import { HelpCircle, Users } from "lucide-react";
 import { useState } from "react";
-import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
 interface JointFormProps {
@@ -113,7 +112,6 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* Joint Holding Type */}
           <FormField
             control={form.control}
             name="jointHoldingType"
@@ -139,7 +137,6 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
             )}
           />
 
-          {/* Investor 1 Information */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <Users className="w-5 h-5 text-primary" />
@@ -155,15 +152,12 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
                   <FormItem>
                     <FormLabel>Street Address</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          {...field}
-                          className="premium-input"
-                          placeholder="Street Address"
-                          data-testid="input-investor1-street-address"
-                        />
-                      </div>
+                      <Input
+                        {...field}
+                        className="premium-input"
+                        placeholder="Street Address"
+                        data-testid="input-investor1-street-address"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -177,15 +171,12 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
                   <FormItem>
                     <FormLabel>Apt. or Unit (Optional)</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          {...field}
-                          className="premium-input"
-                          placeholder="Apt. or Unit"
-                          data-testid="input-investor1-apartment-unit"
-                        />
-                      </div>
+                      <Input
+                        {...field}
+                        className="premium-input"
+                        placeholder="Apt. or Unit"
+                        data-testid="input-investor1-apartment-unit"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -201,15 +192,12 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
                   <FormItem>
                     <FormLabel>City</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          {...field}
-                          className="premium-input"
-                          placeholder="City"
-                          data-testid="input-investor1-city"
-                        />
-                      </div>
+                      <Input
+                        {...field}
+                        className="premium-input"
+                        placeholder="City"
+                        data-testid="input-investor1-city"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -223,15 +211,12 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
                   <FormItem>
                     <FormLabel>Zip Code</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          {...field}
-                          className="premium-input"
-                          placeholder="Zip Code"
-                          data-testid="input-investor1-zip-code"
-                        />
-                      </div>
+                      <Input
+                        {...field}
+                        className="premium-input"
+                        placeholder="Zip Code"
+                        data-testid="input-investor1-zip-code"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -299,15 +284,12 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
                   <FormItem>
                     <FormLabel>Date of Birth</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          {...field}
-                          type="date"
-                          className="premium-input"
-                          data-testid="input-investor1-date-of-birth"
-                        />
-                      </div>
+                      <Input
+                        {...field}
+                        type="date"
+                        className="premium-input"
+                        data-testid="input-investor1-date-of-birth"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -338,19 +320,16 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
                 <FormItem>
                   <FormLabel>TIN or SSN</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="TIN or SSN"
-                        onChange={(e) => {
-                          const formatted = formatSSN(e.target.value);
-                          field.onChange(formatted);
-                        }}
-                        data-testid="input-investor1-tin-ssn"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="TIN or SSN"
+                      onChange={(e) => {
+                        const formatted = formatSSN(e.target.value);
+                        field.onChange(formatted);
+                      }}
+                      data-testid="input-investor1-tin-ssn"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -360,7 +339,6 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
 
           <Separator />
 
-          {/* Joint Holder Information */}
           <div className="space-y-4">
             <h4 className="text-md font-semibold text-foreground">Joint Holder Information</h4>
 
@@ -404,7 +382,6 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
               />
             </div>
 
-            {/* Rest of second investor fields... */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -413,15 +390,12 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
                   <FormItem>
                     <FormLabel>Street Address</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          {...field}
-                          className="premium-input"
-                          placeholder="Street Address"
-                          data-testid="input-investor2-street-address"
-                        />
-                      </div>
+                      <Input
+                        {...field}
+                        className="premium-input"
+                        placeholder="Street Address"
+                        data-testid="input-investor2-street-address"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -435,15 +409,12 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
                   <FormItem>
                     <FormLabel>Apt. or Unit (Optional)</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          {...field}
-                          className="premium-input"
-                          placeholder="Apt. or Unit"
-                          data-testid="input-investor2-apartment-unit"
-                        />
-                      </div>
+                      <Input
+                        {...field}
+                        className="premium-input"
+                        placeholder="Apt. or Unit"
+                        data-testid="input-investor2-apartment-unit"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -455,19 +426,16 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
               <FormField
                 control={form.control}
                 name="secondInvestor.city"
-                render={({ field }) => (
+                render={({ field}) => (
                   <FormItem>
                     <FormLabel>City</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          {...field}
-                          className="premium-input"
-                          placeholder="City"
-                          data-testid="input-investor2-city"
-                        />
-                      </div>
+                      <Input
+                        {...field}
+                        className="premium-input"
+                        placeholder="City"
+                        data-testid="input-investor2-city"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -481,15 +449,12 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
                   <FormItem>
                     <FormLabel>Zip Code</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          {...field}
-                          className="premium-input"
-                          placeholder="Zip Code"
-                          data-testid="input-investor2-zip-code"
-                        />
-                      </div>
+                      <Input
+                        {...field}
+                        className="premium-input"
+                        placeholder="Zip Code"
+                        data-testid="input-investor2-zip-code"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -557,15 +522,12 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
                   <FormItem>
                     <FormLabel>Date of Birth</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          {...field}
-                          type="date"
-                          className="premium-input"
-                          data-testid="input-investor2-date-of-birth"
-                        />
-                      </div>
+                      <Input
+                        {...field}
+                        type="date"
+                        className="premium-input"
+                        data-testid="input-investor2-date-of-birth"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -574,7 +536,7 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
 
               <div className="flex justify-end items-center">
                 <span className="text-xs text-muted-foreground">
-                  No P.O. Boxes Allowed
+                  Same date restrictions apply
                 </span>
               </div>
             </div>
@@ -586,19 +548,16 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
                 <FormItem>
                   <FormLabel>TIN or SSN</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="TIN or SSN"
-                        onChange={(e) => {
-                          const formatted = formatSSN(e.target.value);
-                          field.onChange(formatted);
-                        }}
-                        data-testid="input-investor2-tin-ssn"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="TIN or SSN"
+                      onChange={(e) => {
+                        const formatted = formatSSN(e.target.value);
+                        field.onChange(formatted);
+                      }}
+                      data-testid="input-investor2-tin-ssn"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

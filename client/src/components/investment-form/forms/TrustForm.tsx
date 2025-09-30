@@ -8,9 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { MapPin, Building, Globe, CreditCard, FileText, User } from "lucide-react";
 import { useState } from "react";
-import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
 interface TrustFormProps {
@@ -92,7 +90,6 @@ export default function TrustForm({ formManager, onUpdate }: TrustFormProps) {
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {/* Trust Information */}
           <FormField
             control={form.control}
             name="entityName"
@@ -100,22 +97,18 @@ export default function TrustForm({ formManager, onUpdate }: TrustFormProps) {
               <FormItem>
                 <FormLabel>Trust Name</FormLabel>
                 <FormControl>
-                  <div className="relative">
-                    <FileText className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                    <Input
-                      {...field}
-                      className="premium-input"
-                      placeholder="Trust Name"
-                      data-testid="input-trust-name"
-                    />
-                  </div>
+                  <Input
+                    {...field}
+                    className="premium-input"
+                    placeholder="Trust Name"
+                    data-testid="input-trust-name"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          {/* Address Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
@@ -124,15 +117,12 @@ export default function TrustForm({ formManager, onUpdate }: TrustFormProps) {
                 <FormItem>
                   <FormLabel>Street Address</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Street Address"
-                        data-testid="input-trust-street-address"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="Street Address"
+                      data-testid="input-trust-street-address"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -146,15 +136,12 @@ export default function TrustForm({ formManager, onUpdate }: TrustFormProps) {
                 <FormItem>
                   <FormLabel>Suite/Floor (Optional)</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Suite/Floor"
-                        data-testid="input-trust-suite"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="Suite/Floor"
+                      data-testid="input-trust-suite"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -170,15 +157,12 @@ export default function TrustForm({ formManager, onUpdate }: TrustFormProps) {
                 <FormItem>
                   <FormLabel>City</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="City"
-                        data-testid="input-trust-city"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="City"
+                      data-testid="input-trust-city"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -192,15 +176,12 @@ export default function TrustForm({ formManager, onUpdate }: TrustFormProps) {
                 <FormItem>
                   <FormLabel>Zip Code</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Zip Code"
-                        data-testid="input-trust-zip-code"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="Zip Code"
+                      data-testid="input-trust-zip-code"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -260,7 +241,6 @@ export default function TrustForm({ formManager, onUpdate }: TrustFormProps) {
             />
           </div>
 
-          {/* Tax and Authorization Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
@@ -269,19 +249,16 @@ export default function TrustForm({ formManager, onUpdate }: TrustFormProps) {
                 <FormItem>
                   <FormLabel>Federal Tax ID (EIN)</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="XX-XXXXXXX"
-                        onChange={(e) => {
-                          const formatted = formatTaxId(e.target.value);
-                          field.onChange(formatted);
-                        }}
-                        data-testid="input-trust-tax-id"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="XX-XXXXXXX"
+                      onChange={(e) => {
+                        const formatted = formatTaxId(e.target.value);
+                        field.onChange(formatted);
+                      }}
+                      data-testid="input-trust-tax-id"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -295,15 +272,12 @@ export default function TrustForm({ formManager, onUpdate }: TrustFormProps) {
                 <FormItem>
                   <FormLabel>Trustee/Authorized Signatory</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Trustee Name"
-                        data-testid="input-trust-trustee"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="Trustee Name"
+                      data-testid="input-trust-trustee"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

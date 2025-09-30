@@ -8,9 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { MapPin, Building, Globe, CreditCard, FileText, User } from "lucide-react";
 import { useState } from "react";
-import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
 interface CorporationFormProps {
@@ -103,7 +101,6 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {/* Entity Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
@@ -112,15 +109,12 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
                 <FormItem>
                   <FormLabel>Corporation/Entity Name</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Corporation/Entity Name"
-                        data-testid="input-entity-name"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="Corporation/Entity Name"
+                      data-testid="input-entity-name"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -153,7 +147,6 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
             />
           </div>
 
-          {/* Address Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
@@ -162,15 +155,12 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
                 <FormItem>
                   <FormLabel>Street Address</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Street Address"
-                        data-testid="input-corporation-street-address"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="Street Address"
+                      data-testid="input-corporation-street-address"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -184,15 +174,12 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
                 <FormItem>
                   <FormLabel>Suite/Floor (Optional)</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Suite/Floor"
-                        data-testid="input-corporation-suite"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="Suite/Floor"
+                      data-testid="input-corporation-suite"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -208,15 +195,12 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
                 <FormItem>
                   <FormLabel>City</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="City"
-                        data-testid="input-corporation-city"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="City"
+                      data-testid="input-corporation-city"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -230,15 +214,12 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
                 <FormItem>
                   <FormLabel>Zip Code</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Zip Code"
-                        data-testid="input-corporation-zip-code"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="Zip Code"
+                      data-testid="input-corporation-zip-code"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -298,7 +279,6 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
             />
           </div>
 
-          {/* Tax and Authorization Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
@@ -307,19 +287,16 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
                 <FormItem>
                   <FormLabel>Federal Tax ID (EIN)</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="XX-XXXXXXX"
-                        onChange={(e) => {
-                          const formatted = formatTaxId(e.target.value);
-                          field.onChange(formatted);
-                        }}
-                        data-testid="input-corporation-tax-id"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="XX-XXXXXXX"
+                      onChange={(e) => {
+                        const formatted = formatTaxId(e.target.value);
+                        field.onChange(formatted);
+                      }}
+                      data-testid="input-corporation-tax-id"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -333,15 +310,12 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
                 <FormItem>
                   <FormLabel>Authorized Signatory</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Authorized Signatory Name"
-                        data-testid="input-authorized-signatory"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="premium-input"
+                      placeholder="Authorized Signatory Name"
+                      data-testid="input-authorized-signatory"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
