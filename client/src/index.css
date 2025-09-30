@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(35, 15%, 96%);
+  --foreground: hsl(210, 40%, 15%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(210, 40%, 15%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(210, 40%, 15%);
+  --primary: hsl(25, 85%, 53%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(35, 15%, 91%);
+  --secondary-foreground: hsl(210, 40%, 25%);
+  --muted: hsl(35, 15%, 91%);
+  --muted-foreground: hsl(210, 20%, 45%);
+  --accent: hsl(25, 85%, 53%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(210, 20%, 82%);
+  --input: hsl(35, 15%, 91%);
+  --ring: hsl(25, 85%, 53%);
+  --chart-1: hsl(203.8863, 88.2845%, 53.1373%);
+  --chart-2: hsl(159.7826, 100%, 36.0784%);
+  --chart-3: hsl(42.0290, 92.8251%, 56.2745%);
+  --chart-4: hsl(147.1429, 78.5047%, 41.9608%);
+  --chart-5: hsl(341.4894, 75.2000%, 50.9804%);
+  --sidebar: hsl(0, 0%, 100%);
+  --sidebar-foreground: hsl(210, 40%, 15%);
+  --sidebar-primary: hsl(25, 85%, 53%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(35, 15%, 91%);
+  --sidebar-accent-foreground: hsl(25, 85%, 53%);
+  --sidebar-border: hsl(210, 20%, 82%);
+  --sidebar-ring: hsl(25, 85%, 53%);
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: 0.75rem;
+  --success: hsl(142, 76%, 36%);
+  --success-foreground: hsl(0, 0%, 100%);
+}
+
+.dark {
+  --background: hsl(0, 0%, 0%);
+  --foreground: hsl(200, 6.6667%, 91.1765%);
+  --card: hsl(228, 9.8039%, 10%);
+  --card-foreground: hsl(0, 0%, 85.0980%);
+  --popover: hsl(0, 0%, 0%);
+  --popover-foreground: hsl(200, 6.6667%, 91.1765%);
+  --primary: hsl(25, 85%, 53%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(195.0000, 15.3846%, 94.9020%);
+  --secondary-foreground: hsl(210, 25%, 7.8431%);
+  --muted: hsl(0, 0%, 9.4118%);
+  --muted-foreground: hsl(210, 3.3898%, 46.2745%);
+  --accent: hsl(205.7143, 70%, 7.8431%);
+  --accent-foreground: hsl(203.7736, 87.6033%, 52.5490%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(210, 5.2632%, 14.9020%);
+  --input: hsl(207.6923, 27.6596%, 18.4314%);
+  --ring: hsl(25, 85%, 53%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .step-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+  }
+
+  .investment-option {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .investment-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .bonus-badge {
+    background: linear-gradient(135deg, hsl(25, 85%, 53%), hsl(25, 85%, 45%));
+  }
+
+  .form-input {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .form-input:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px hsla(25, 85%, 53%, 0.15);
+  }
+
+  .step-indicator {
+    transition: all 0.3s ease-in-out;
+  }
+
+  .step-complete {
+    background: var(--success);
+    color: var(--success-foreground);
+  }
+
+  .step-active {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .radio-custom {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .radio-custom:checked + label {
+    background: linear-gradient(135deg, hsl(25, 85%, 53%), hsl(25, 85%, 45%));
+    color: white;
+    transform: translateY(-1px);
+  }
+
+  .premium-input {
+    @apply form-input w-full pl-10 pr-4 py-3 bg-input border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent;
+  }
+
+  .premium-button {
+    @apply bg-primary text-primary-foreground font-semibold py-4 px-6 rounded-lg transition-all duration-200;
+  }
+  
+  .premium-button:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

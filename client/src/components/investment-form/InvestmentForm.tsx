@@ -1,0 +1,141 @@
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { Coins, CheckCircle, Edit2 } from "lucide-react";
+import { useInvestmentForm } from "@/hooks/use-investment-form";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import InvestorProfile from "./InvestorProfile";
+import InvestmentAmount from "./InvestmentAmount";
+import InvestorInformation from "./InvestorInformation";
+import { formatCurrency } from "@/lib/investment-calculations";
+
+export default function InvestmentForm() {
+  const formManager = useInvestmentForm();
+  const [openStep, setOpenStep] = useState<string>("step-1");
+
+  // Auto-expand next step when current step is completed
+  useEffect(() => {
+    if (formManager.isStepComplete(1) && !formManager.isStepComplete(2) && openStep === "step-1") {
+      setOpenStep("step-2");
+    } else if (formManager.isStepComplete(2) && !formManager.isStepComplete(3) && openStep === "step-2") {
+      setOpenStep("step-3");
+    }
+  }, [formManager.completedSteps]);
+
+  return (
+    <div className="min-h-screen py-8 px-4 bg-background">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <motion.header 
+          className="text-center mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="flex items-center justify-center mb-4">
+            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center mr-3">
+              <Coins className="text-primary-foreground text-sm" />
+            </div>
+            <h1 className="text-2xl font-semibold text-foreground">satoshi reserve</h1>
+          </div>
+          <h2 className="text-3xl font-bold text-foreground mb-2">
+            Satoshi Reserve Regulation CF Investment Opportunity
+          </h2>
+          <p className="text-muted-foreground text-lg">
+            You're on the fast track to becoming an official Satoshi Reserve shareholder.
+          </p>
+        </motion.header>
+
+        {/* Accordion Form */}
+        <motion.div
+          className="bg-card rounded-lg shadow-sm border border-border overflow-hidden"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <Accordion type="single" collapsible value={openStep} onValueChange={setOpenStep} className="w-full">
+            {/* Step 1: Investor Profile */}
+            <AccordionItem value="step-1" className="border-b border-border">
+              <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                <div className="flex items-center justify-between w-full pr-4">
+                  <div className="flex items-center space-x-3">
+                    <span className="text-lg font-semibold">1. Investor Profile</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {formManager.isStepComplete(1) ? (
+                      <CheckCircle className="w-5 h-5 text-success" data-testid="step-1-complete" />
+                    ) : (
+                      <span className="text-sm text-muted-foreground">Incomplete</span>
+                    )}
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="px-6 pb-6">
+                  <InvestorProfile formManager={formManager} />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Step 2: Investment Amount */}
+            <AccordionItem value="step-2" className="border-b border-border">
+              <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                <div className="flex items-center justify-between w-full pr-4">
+                  <div className="flex items-center space-x-3">
+                    <span className="text-lg font-semibold">2. Investment Amount</span>
+                    {formManager.isStepComplete(2) && formManager.formData.investmentAmount && (
+                      <span className="text-sm text-muted-foreground ml-2">
+                        {formatCurrency(formManager.formData.investmentAmount.amount)}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {formManager.isStepComplete(2) && (
+                      <>
+                        <CheckCircle className="w-5 h-5 text-success" data-testid="step-2-complete" />
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                          className="p-1 hover:bg-secondary rounded"
+                          data-testid="edit-step-2"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="px-6 pb-6">
+                  <InvestmentAmount formManager={formManager} />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Step 3: Investor Information */}
+            <AccordionItem value="step-3" className="border-b-0">
+              <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                <div className="flex items-center justify-between w-full pr-4">
+                  <div className="flex items-center space-x-3">
+                    <span className="text-lg font-semibold">3. Investor Information</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {formManager.isStepComplete(3) && (
+                      <CheckCircle className="w-5 h-5 text-success" data-testid="step-3-complete" />
+                    )}
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="px-6 pb-6">
+                  <InvestorInformation formManager={formManager} />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
