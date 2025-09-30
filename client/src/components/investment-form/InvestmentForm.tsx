@@ -23,7 +23,7 @@ export default function InvestmentForm() {
 
   return (
     <div className="min-h-screen py-8 px-4 bg-background">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-2xl mx-auto">
         {/* Header */}
         <motion.header 
           className="text-center mb-8"
