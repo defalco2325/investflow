@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { MapPin, Building, Globe, Calendar, CreditCard, HelpCircle } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 import { useState } from "react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -103,15 +103,12 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
                 <FormItem>
                   <FormLabel>Street Address</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Street Address"
-                        data-testid="input-street-address"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="bg-input border-border"
+                      placeholder="Street Address"
+                      data-testid="input-street-address"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -125,15 +122,12 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
                 <FormItem>
                   <FormLabel>Apt. or Unit (Optional)</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Apt. or Unit"
-                        data-testid="input-apartment-unit"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="bg-input border-border"
+                      placeholder="Apt. or Unit"
+                      data-testid="input-apartment-unit"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -149,15 +143,12 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
                 <FormItem>
                   <FormLabel>City</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="City"
-                        data-testid="input-city"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="bg-input border-border"
+                      placeholder="City"
+                      data-testid="input-city"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -171,15 +162,12 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
                 <FormItem>
                   <FormLabel>Zip Code</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        className="premium-input"
-                        placeholder="Zip Code"
-                        data-testid="input-zip-code"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      className="bg-input border-border"
+                      placeholder="Zip Code"
+                      data-testid="input-zip-code"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -196,7 +184,7 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
                   <FormLabel>State</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className="premium-input" data-testid="select-state">
+                      <SelectTrigger className="bg-input border-border" data-testid="select-state">
                         <SelectValue placeholder="Select State" />
                       </SelectTrigger>
                     </FormControl>
@@ -221,7 +209,7 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
                   <FormLabel>Country</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className="premium-input" data-testid="select-country">
+                      <SelectTrigger className="bg-input border-border" data-testid="select-country">
                         <SelectValue placeholder="Select Country" />
                       </SelectTrigger>
                     </FormControl>
@@ -247,15 +235,12 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
                 <FormItem>
                   <FormLabel>Date of Birth</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                      <Input
-                        {...field}
-                        type="date"
-                        className="premium-input"
-                        data-testid="input-date-of-birth"
-                      />
-                    </div>
+                    <Input
+                      {...field}
+                      type="date"
+                      className="bg-input border-border"
+                      data-testid="input-date-of-birth"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -286,19 +271,16 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
               <FormItem>
                 <FormLabel>TIN or SSN</FormLabel>
                 <FormControl>
-                  <div className="relative">
-                    <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                    <Input
-                      {...field}
-                      className="premium-input"
-                      placeholder="TIN or SSN"
-                      onChange={(e) => {
-                        const formatted = formatSSN(e.target.value);
-                        field.onChange(formatted);
-                      }}
-                      data-testid="input-tin-ssn"
-                    />
-                  </div>
+                  <Input
+                    {...field}
+                    className="bg-input border-border"
+                    placeholder="TIN or SSN"
+                    onChange={(e) => {
+                      const formatted = formatSSN(e.target.value);
+                      field.onChange(formatted);
+                    }}
+                    data-testid="input-tin-ssn"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -307,7 +289,7 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
 
           <Button 
             type="submit" 
-            className="premium-button w-full"
+            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-6 rounded-lg transition-all text-lg"
             disabled={isSubmitting}
             data-testid="button-submit-investment"
           >
