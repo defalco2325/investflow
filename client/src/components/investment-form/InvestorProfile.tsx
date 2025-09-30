@@ -8,6 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { User, Mail, Phone } from "lucide-react";
 
 interface InvestorProfileProps {
@@ -25,7 +26,7 @@ export default function InvestorProfile({ formManager }: InvestorProfileProps) {
       lastName: "",
       email: "",
       phone: "",
-      isAccredited: false,
+      isAccredited: undefined as any,
       consentGiven: false,
     },
   });
@@ -181,38 +182,35 @@ export default function InvestorProfile({ formManager }: InvestorProfileProps) {
             name="isAccredited"
             render={({ field }) => (
               <FormItem>
-                <FormControl>
-                  <motion.div
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                <div className="flex items-center gap-2">
+                  <Select
+                    value={field.value === true ? "yes" : field.value === false ? "no" : undefined}
+                    onValueChange={(value) => field.onChange(value === "yes")}
                   >
-                    <button
-                      type="button"
-                      onClick={() => field.onChange(true)}
-                      className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-all duration-200 ${
-                        field.value 
-                          ? 'border-primary bg-primary/5' 
-                          : 'border-border bg-input hover:border-primary/50'
-                      }`}
-                      data-testid="button-accredited-yes"
+                    <FormControl>
+                      <SelectTrigger 
+                        className="flex-1 bg-input border-border"
+                        data-testid="select-accredited"
+                      >
+                        <SelectValue placeholder="Select..." />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="yes">Yes</SelectItem>
+                      <SelectItem value="no">No</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {field.value === true && (
+                    <motion.span 
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                      className="bg-[#FB8037] text-white text-xs font-semibold px-3 py-1 rounded whitespace-nowrap"
                     >
-                      <div className="flex items-center justify-between">
-                        <span>Yes</span>
-                        {field.value && (
-                          <motion.span 
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ type: "spring", stiffness: 500, damping: 25 }}
-                            className="bg-[#FB8037] text-white text-xs font-semibold px-3 py-1 rounded"
-                          >
-                            REQUIRED
-                          </motion.span>
-                        )}
-                      </div>
-                    </button>
-                  </motion.div>
-                </FormControl>
+                      REQUIRED
+                    </motion.span>
+                  )}
+                </div>
                 <FormMessage />
               </FormItem>
             )}

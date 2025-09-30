@@ -5,7 +5,10 @@ export const investorProfileSchema = z.object({
   lastName: z.string().min(1, "Last name is required").max(50, "Last name must be less than 50 characters"),
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().min(10, "Please enter a valid phone number").regex(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/, "Please enter a valid phone number"),
-  isAccredited: z.boolean(),
+  isAccredited: z.boolean({
+    required_error: "Please select whether you are an accredited investor",
+    invalid_type_error: "Please select whether you are an accredited investor",
+  }),
   consentGiven: z.boolean().refine(val => val === true, "You must give consent to continue"),
 });
 
