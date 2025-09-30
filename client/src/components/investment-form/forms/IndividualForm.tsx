@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { UseInvestmentFormReturn } from "@/hooks/use-investment-form";
 import { individualInvestorSchema } from "@/lib/validation-schemas";
-import { InvestorInformationData } from "@shared/schema";
+import { InvestorInformationData } from "@/types/investor";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
