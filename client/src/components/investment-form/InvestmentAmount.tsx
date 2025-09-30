@@ -89,7 +89,7 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
                   <RadioGroupItem value={tier.amount.toString()} id={`tier-${tier.amount}`} />
                   <div>
                     <p className="font-semibold">{tier.label}</p>
-                    <p className="text-sm text-success line-through text-muted-foreground">
+                    <p className="text-sm text-red-500 line-through">
                       ${(tier.amount / SHARE_PRICE).toLocaleString('en-US', {maximumFractionDigits: 0})}
                     </p>
                     <p className="text-sm text-success">
