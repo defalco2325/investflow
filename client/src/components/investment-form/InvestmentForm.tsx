@@ -55,11 +55,7 @@ export default function InvestmentForm() {
       <div className="max-w-xl mx-auto">
         {/* Accordion Form */}
         <motion.div
-          className={`bg-card rounded-lg shadow-sm border border-border relative ${
-            displayAmount && calculation && (openStep === "step-2" || openStep === "step-3") 
-              ? "pb-24" 
-              : ""
-          }`}
+          className="bg-card rounded-lg shadow-sm border border-border relative"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -132,7 +128,11 @@ export default function InvestmentForm() {
                 </div>
               </AccordionTrigger>
               <AccordionContent>
-                <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+                <div className={`px-4 sm:px-6 ${
+                  displayAmount && calculation && openStep === "step-2" 
+                    ? "pb-28 sm:pb-32" 
+                    : "pb-4 sm:pb-6"
+                }`}>
                   <InvestmentAmount formManager={formManager} onAmountChange={handleAmountChange} />
                 </div>
               </AccordionContent>
@@ -166,7 +166,11 @@ export default function InvestmentForm() {
                 </div>
               </AccordionTrigger>
               <AccordionContent>
-                <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+                <div className={`px-4 sm:px-6 ${
+                  displayAmount && calculation && openStep === "step-3" 
+                    ? "pb-28 sm:pb-32" 
+                    : "pb-4 sm:pb-6"
+                }`}>
                   <InvestorInformation formManager={formManager} />
                 </div>
               </AccordionContent>
@@ -175,7 +179,7 @@ export default function InvestmentForm() {
 
           {/* Sticky Investment Summary - Shows on Step 2 and Step 3 */}
           {displayAmount && calculation && (openStep === "step-2" || openStep === "step-3") && (
-            <div className="absolute bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg p-4 rounded-b-lg z-10" data-testid="sticky-investment-summary">
+            <div className="sticky bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg p-4 z-50 -mx-px" data-testid="sticky-investment-summary">
               <div className="space-y-1.5">
                 <div className="flex justify-between items-center">
                   <p className="text-xs text-muted-foreground">Total Investment</p>
