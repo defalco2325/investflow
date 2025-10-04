@@ -106,6 +106,7 @@ export default function InvestmentForm() {
                           <button 
                             onClick={(e) => {
                               e.stopPropagation();
+                              setOpenStep("step-1");
                             }}
                             className="p-1 hover:bg-secondary rounded"
                             data-testid="edit-step-1"
@@ -149,6 +150,7 @@ export default function InvestmentForm() {
                           <button 
                             onClick={(e) => {
                               e.stopPropagation();
+                              setOpenStep("step-2");
                             }}
                             className="p-1 hover:bg-secondary rounded"
                             data-testid="edit-step-2"
@@ -189,6 +191,7 @@ export default function InvestmentForm() {
                           <button 
                             onClick={(e) => {
                               e.stopPropagation();
+                              setOpenStep("step-3");
                             }}
                             className="p-1 hover:bg-secondary rounded"
                             data-testid="edit-step-3"
