@@ -55,7 +55,11 @@ export default function InvestmentForm() {
       <div className="max-w-xl mx-auto">
         {/* Accordion Form */}
         <motion.div
-          className="bg-card rounded-lg shadow-sm border border-border overflow-hidden"
+          className={`bg-card rounded-lg shadow-sm border border-border relative ${
+            displayAmount && calculation && (openStep === "step-2" || openStep === "step-3") 
+              ? "pb-24" 
+              : ""
+          }`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -168,35 +172,35 @@ export default function InvestmentForm() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-        </motion.div>
 
-        {/* Sticky Investment Summary - Shows on Step 2 and Step 3 */}
-        {displayAmount && calculation && (openStep === "step-2" || openStep === "step-3") && (
-          <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg p-4 z-50">
-            <div className="max-w-xl mx-auto space-y-1.5">
-              <div className="flex justify-between items-center">
-                <p className="text-xs text-muted-foreground">Total Investment</p>
-                <p className="text-sm font-semibold">{formatCurrency(displayAmount)}</p>
-              </div>
-              <div className="flex justify-between items-center">
-                <p className="text-xs text-muted-foreground">Bonus Shares</p>
-                <p className="text-sm font-semibold">
-                  <span className="text-success">({calculation.bonusPercentage}%)</span>{" "}
-                  {formatNumber(calculation.bonusShares)}
-                </p>
-              </div>
-              <div className="flex justify-between items-center">
-                <p className="text-xs text-muted-foreground">Effective Share Price</p>
-                <p className="text-sm font-semibold flex items-center gap-1">
-                  <span className="text-muted-foreground line-through decoration-red-500 text-xs">
-                    {formatCurrency(SHARE_PRICE)}
-                  </span>
-                  <span className="text-success">{formatCurrency(calculation.effectivePrice)}</span>
-                </p>
+          {/* Sticky Investment Summary - Shows on Step 2 and Step 3 */}
+          {displayAmount && calculation && (openStep === "step-2" || openStep === "step-3") && (
+            <div className="absolute bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg p-4 rounded-b-lg z-10" data-testid="sticky-investment-summary">
+              <div className="space-y-1.5">
+                <div className="flex justify-between items-center">
+                  <p className="text-xs text-muted-foreground">Total Investment</p>
+                  <p className="text-sm font-semibold">{formatCurrency(displayAmount)}</p>
+                </div>
+                <div className="flex justify-between items-center">
+                  <p className="text-xs text-muted-foreground">Bonus Shares</p>
+                  <p className="text-sm font-semibold">
+                    <span className="text-success">({calculation.bonusPercentage}%)</span>{" "}
+                    {formatNumber(calculation.bonusShares)}
+                  </p>
+                </div>
+                <div className="flex justify-between items-center">
+                  <p className="text-xs text-muted-foreground">Effective Share Price</p>
+                  <p className="text-sm font-semibold flex items-center gap-1">
+                    <span className="text-muted-foreground line-through decoration-red-500 text-xs">
+                      {formatCurrency(SHARE_PRICE)}
+                    </span>
+                    <span className="text-success">{formatCurrency(calculation.effectivePrice)}</span>
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </motion.div>
       </div>
     </div>
   );
