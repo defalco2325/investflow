@@ -25,7 +25,7 @@ const PRICING_TIERS = [
 
 export default function InvestmentAmount({ formManager, onAmountChange }: InvestmentAmountProps) {
   const { updateInvestmentAmount, formData } = formManager;
-  const [selectedAmount, setSelectedAmount] = useState(formData.investmentAmount?.amount || 99500);
+  const [selectedAmount, setSelectedAmount] = useState(formData.investmentAmount?.amount || 1500);
   const [customAmount, setCustomAmount] = useState("");
 
   const calculation = calculateInvestment(selectedAmount);
