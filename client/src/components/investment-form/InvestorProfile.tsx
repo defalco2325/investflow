@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useEffect } from "react";
 import { UseInvestmentFormReturn } from "@/hooks/use-investment-form";
 import { investorProfileSchema } from "@/lib/validation-schemas";
 import { InvestorProfileData } from "@shared/schema";
@@ -9,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, Mail, Phone } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { User, Mail, Phone, X } from "lucide-react";
 
 interface InvestorProfileProps {
   formManager: UseInvestmentFormReturn;
@@ -17,6 +19,7 @@ interface InvestorProfileProps {
 
 export default function InvestorProfile({ formManager }: InvestorProfileProps) {
   const { updateInvestorProfile, formData } = formManager;
+  const [showAccreditedModal, setShowAccreditedModal] = useState(false);
 
   const form = useForm<InvestorProfileData>({
     resolver: zodResolver(investorProfileSchema),
@@ -26,14 +29,23 @@ export default function InvestorProfile({ formManager }: InvestorProfileProps) {
       lastName: "",
       email: "",
       phone: "",
-      isAccredited: undefined as any,
-      consentGiven: false,
+      isAccredited: false,
+      consentGiven: true,
     },
   });
 
   const onSubmit = (data: InvestorProfileData) => {
+    if (!data.email) {
+      form.setError("email", { 
+        type: "manual", 
+        message: "Email is required to continue" 
+      });
+      return;
+    }
     updateInvestorProfile(data);
   };
+
+  const isEmailValid = form.watch("email") && !form.formState.errors.email;
 
   const formatPhoneNumber = (value: string) => {
     const numbers = value.replace(/\D/g, "");
@@ -171,10 +183,55 @@ export default function InvestorProfile({ formManager }: InvestorProfileProps) {
 
         <motion.div variants={itemVariants} className="space-y-3">
           <div>
-            <p className="text-sm font-medium mb-1">
-              <span className="underline">Accredited Investors</span> get exclusive access to additional bonus shares.
+            <p className="text-sm text-muted-foreground">
+              Are you an{" "}
+              <Popover open={showAccreditedModal} onOpenChange={setShowAccreditedModal}>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    className="font-medium text-foreground hover:opacity-80 transition-opacity"
+                    onClick={() => setShowAccreditedModal(true)}
+                    data-testid="button-accredited-info"
+                  >
+                    Accredited Investor
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent 
+                  className="w-80 p-4" 
+                  role="dialog" 
+                  aria-label="Accredited Investor Information"
+                  onEscapeKeyDown={() => setShowAccreditedModal(false)}
+                >
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-start">
+                      <h3 className="font-semibold text-sm">Accredited Investor</h3>
+                      <button
+                        type="button"
+                        onClick={() => setShowAccreditedModal(false)}
+                        className="p-1 hover:bg-secondary rounded"
+                        aria-label="Close"
+                        data-testid="button-close-modal"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      An accredited investor is an individual or entity that meets specific financial criteria set by the SEC, such as having a net worth exceeding $1 million (excluding primary residence) or annual income over $200,000 ($300,000 for joint income).
+                    </p>
+                    <a
+                      href="https://www.sec.gov/education/capitalraising/building-blocks/accredited-investor"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-primary hover:underline inline-block"
+                      data-testid="link-learn-more"
+                    >
+                      Learn more →
+                    </a>
+                  </div>
+                </PopoverContent>
+              </Popover>
+              ?
             </p>
-            <p className="text-sm text-muted-foreground">Are you an Accredited Investor?</p>
           </div>
           
           <FormField
@@ -184,7 +241,7 @@ export default function InvestorProfile({ formManager }: InvestorProfileProps) {
               <FormItem>
                 <div className="flex items-center gap-2">
                   <Select
-                    value={field.value === true ? "yes" : field.value === false ? "no" : undefined}
+                    value={field.value === true ? "yes" : field.value === false ? "no" : "no"}
                     onValueChange={(value) => field.onChange(value === "yes")}
                   >
                     <FormControl>
@@ -229,8 +286,15 @@ export default function InvestorProfile({ formManager }: InvestorProfileProps) {
                   </FormControl>
                   <div className="space-y-1">
                     <p className="text-sm">
-                      Consent for SMS from Satoshi Reserve. Msg/ data rates may apply. Consent is not a condition of purchase.
-                      Reply STOP to opt-out. See our Privacy Policy & Terms
+                      By submitting this form and signing up for communications, you consent to receive marketing email, text & voice messages (e.g. promos, calls, voicemails, cart reminders) from Mode Mobile at the number & email provided. Consent is not a condition of purchase. Msg, voice, & data rates may apply. Msg frequency varies. Unsubscribe at any time by replying STOP or clicking the unsubscribe link (where available).{" "}
+                      <a
+                        href="/privacy"
+                        className="text-foreground hover:opacity-80 transition-opacity"
+                        data-testid="link-privacy-policy"
+                      >
+                        Privacy Policy
+                      </a>{" "}
+                      & Terms.
                     </p>
                   </div>
                 </div>
@@ -244,7 +308,7 @@ export default function InvestorProfile({ formManager }: InvestorProfileProps) {
           <Button 
             type="submit" 
             className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-3 sm:py-4 text-sm sm:text-base rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-            disabled={!form.watch("consentGiven") || !form.formState.isValid}
+            disabled={!isEmailValid || !form.watch("consentGiven") || !form.formState.isValid}
             data-testid="button-next-step"
           >
             Next Step

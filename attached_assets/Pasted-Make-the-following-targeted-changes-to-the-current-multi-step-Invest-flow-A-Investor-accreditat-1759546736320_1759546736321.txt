@@ -1,0 +1,96 @@
+Make the following targeted changes to the current multi-step “Invest” flow:
+
+A. Investor accreditation UX
+
+Default to No: Set the “Are you an accredited investor?” state to No on initial render.
+
+Remove copy: Delete the line that says: “Accredited Investors get exclusive access to additional bonus shares.”
+
+Keep the question: Retain the “Are you an accredited investor?” question and Yes/No control.
+
+Inline definition link: Whenever the phrase “Accredited Investor” appears in Step 1, make it a clickable link-styled button (looks like normal text, no underline) that opens a small popover/modal with a short explanation of what an accredited investor is and a “Learn more” link (target="_blank" rel="noopener"). Add proper a11y (role="dialog", focus trap, Esc closes, X button).
+
+B. Step progression / checkout
+
+Bypass Accredited modal on Invest: When the user clicks “Invest Now”, do not show any “Accredited investors” modal. Instead, route directly to the checkout page.
+
+On the checkout page, show a different Step 2 layout/content based on the user’s Step 1 answer (isAccredited: true|false). Use the existing state/store—no new global libs.
+
+C. Consent language & behavior
+
+Pre-checked checkbox: Make the consent checkbox checked by default.
+
+Replace consent text (exact string, preserve punctuation):
+“By submitting this form and signing up for communications, you consent to receive marketing email, text & voice messages (e.g. promos, calls, voicemails, cart reminders) from Mode Mobile at the number & email provided. Consent is not a condition of purchase. Msg, voice, & data rates may apply. Msg frequency varies. Unsubscribe at any time by replying STOP or clicking the unsubscribe link (where available). Privacy Policy & Terms.”
+
+Make Privacy Policy a clickable link, but style it like normal text (inherit color, no underline). Keep Terms as is (link if it already was).
+
+D. Lead gating on Step 1
+
+Gate Step 1 with email: Require an email before the user can leave Step 1.
+
+Disable the Continue/Invest actions until a valid email is present.
+
+If the user attempts to navigate away or clicks Invest without an email, surface inline validation and prevent progression.
+
+If you already capture partials, ensure email is captured at blur or on change for drop-offs.
+
+E. Investment tiers
+
+Tier names: Apply the following display names to the existing investment tiers in order (no other changes):
+
+MEMBER
+
+SELECT
+
+ELITE
+
+PREMIER
+
+PRESIDENTIAL
+
+TITANIUM
+
+IMPERIAL
+
+SOVEREIGN
+
+F. Sticky investment summary
+
+Sticky summary: Make the investment summary sticky so it remains visible while scrolling.
+
+Remove the “No. Of Shares” row from this sticky component.
+
+Tighten vertical spacing/line-height so the remaining three lines fit compactly.
+
+Do not include the Investment input/field in the sticky footer (keep inputs only in the main form).
+
+Technical notes (modify existing only)
+
+Reuse current components and styles; add minimal CSS/utility classes as needed.
+
+Preserve existing analytics; if helpful, add data-analytics attributes to the updated controls.
+
+Maintain current routing/state; only extend where necessary to pass isAccredited to checkout Step 2.
+
+Ensure all new links look like normal text (inherit color, no underline) but remain accessible (button for modal trigger; anchor for external links).
+
+Acceptance criteria (must pass before you stop)
+
+On first load of Step 1, accredited = No.
+
+The “exclusive access to additional bonus shares” text is gone.
+
+Clicking “Accredited Investor” opens an explanatory popover/modal with a working external Learn more link; Esc and “X” close it.
+
+Clicking “Invest Now” routes instantly to checkout, with Step 2 content correctly switching based on accredited status.
+
+Consent checkbox is checked by default, and the exact new consent text is displayed. “Privacy Policy” is clickable, styled as normal text.
+
+User cannot proceed or leave Step 1 actions without a valid email; validation message appears.
+
+Tiers display with the exact names listed above.
+
+Sticky summary remains visible while scrolling, shows no “No. Of Shares” row, has tighter line-height, and does not contain the Investment input.
+
+No regressions to existing functionality or styles elsewhere.

@@ -12,13 +12,14 @@ interface InvestmentAmountProps {
 }
 
 const PRICING_TIERS = [
-  { amount: 1500, bonusPercentage: 5, label: "$1,500" },
-  { amount: 3500, bonusPercentage: 10, label: "$3,500" },
-  { amount: 7500, bonusPercentage: 15, label: "$7,500" },
-  { amount: 9500, bonusPercentage: 25, label: "$9,500" },
-  { amount: 24950, bonusPercentage: 50, label: "$24,950" },
-  { amount: 49500, bonusPercentage: 80, label: "$49,500" },
-  { amount: 99500, bonusPercentage: 120, label: "$99,500" },
+  { amount: 1500, bonusPercentage: 5, label: "MEMBER", displayAmount: "$1,500" },
+  { amount: 3500, bonusPercentage: 10, label: "SELECT", displayAmount: "$3,500" },
+  { amount: 7500, bonusPercentage: 15, label: "ELITE", displayAmount: "$7,500" },
+  { amount: 9500, bonusPercentage: 25, label: "PREMIER", displayAmount: "$9,500" },
+  { amount: 24950, bonusPercentage: 50, label: "PRESIDENTIAL", displayAmount: "$24,950" },
+  { amount: 49500, bonusPercentage: 80, label: "TITANIUM", displayAmount: "$49,500" },
+  { amount: 99500, bonusPercentage: 120, label: "IMPERIAL", displayAmount: "$99,500" },
+  { amount: 199500, bonusPercentage: 150, label: "SOVEREIGN", displayAmount: "$199,500" },
 ];
 
 export default function InvestmentAmount({ formManager }: InvestmentAmountProps) {
@@ -71,12 +72,13 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
   };
 
   return (
-    <motion.div 
-      className="space-y-6"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
+    <>
+      <motion.div 
+        className="space-y-6 pb-32"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
       <motion.div variants={itemVariants} className="flex justify-between items-center text-xs sm:text-sm">
         <div>
           <p className="text-muted-foreground">Share Price</p>
@@ -112,9 +114,7 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
                   <RadioGroupItem value={tier.amount.toString()} id={`tier-${tier.amount}`} />
                   <div>
                     <p className="font-semibold text-sm sm:text-base">{tier.label}</p>
-                    <p className="text-xs sm:text-sm text-muted-foreground line-through decoration-red-500">
-                      ${(tier.amount / SHARE_PRICE).toLocaleString('en-US', {maximumFractionDigits: 0})}
-                    </p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{tier.displayAmount}</p>
                     <p className="text-xs sm:text-sm text-success">
                       {formatNumber(tierCalc.totalShares)} Shares
                     </p>
@@ -187,16 +187,43 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
         </motion.div>
       )}
 
-      <motion.div variants={itemVariants}>
-        <Button 
-          onClick={handleContinue}
-          className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-4 sm:py-6 rounded-lg transition-all duration-200 text-base sm:text-lg hover:scale-[1.02] active:scale-[0.98]"
-          disabled={selectedAmount < 999.90}
-          data-testid="button-continue-step2"
-        >
-          Continue
-        </Button>
+        <motion.div variants={itemVariants}>
+          <Button 
+            onClick={handleContinue}
+            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-4 sm:py-6 rounded-lg transition-all duration-200 text-base sm:text-lg hover:scale-[1.02] active:scale-[0.98]"
+            disabled={selectedAmount < 999.90}
+            data-testid="button-continue-step2"
+          >
+            Continue
+          </Button>
+        </motion.div>
       </motion.div>
-    </motion.div>
+
+      {selectedAmount >= 999.90 && (
+        <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg p-4 z-50">
+          <div className="max-w-xl mx-auto space-y-1.5">
+            <div className="flex justify-between items-center">
+              <p className="text-xs text-muted-foreground">Total Investment</p>
+              <p className="text-sm font-semibold">{formatCurrency(selectedAmount)}</p>
+            </div>
+            <div className="flex justify-between items-center">
+              <p className="text-xs text-muted-foreground">Bonus Shares</p>
+              <p className="text-sm font-semibold">
+                <span className="text-success">({calculation.bonusPercentage}%)</span> {formatNumber(calculation.bonusShares)}
+              </p>
+            </div>
+            <div className="flex justify-between items-center">
+              <p className="text-xs text-muted-foreground">Effective Share Price</p>
+              <p className="text-sm font-semibold flex items-center gap-1">
+                <span className="text-muted-foreground line-through decoration-red-500 text-xs">
+                  {formatCurrency(SHARE_PRICE)}
+                </span>
+                <span className="text-success">{formatCurrency(calculation.effectivePrice)}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
