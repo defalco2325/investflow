@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { UseInvestmentFormReturn } from "@/hooks/use-investment-form";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -9,6 +9,7 @@ import { formatCurrency, formatNumber, calculateInvestment, SHARE_PRICE } from "
 
 interface InvestmentAmountProps {
   formManager: UseInvestmentFormReturn;
+  onAmountChange?: (amount: number) => void;
 }
 
 const PRICING_TIERS = [
@@ -22,16 +23,22 @@ const PRICING_TIERS = [
   { amount: 199500, bonusPercentage: 150, label: "SOVEREIGN", displayAmount: "$199,500" },
 ];
 
-export default function InvestmentAmount({ formManager }: InvestmentAmountProps) {
+export default function InvestmentAmount({ formManager, onAmountChange }: InvestmentAmountProps) {
   const { updateInvestmentAmount, formData } = formManager;
   const [selectedAmount, setSelectedAmount] = useState(formData.investmentAmount?.amount || 99500);
   const [customAmount, setCustomAmount] = useState("");
 
   const calculation = calculateInvestment(selectedAmount);
 
+  // Notify parent of initial amount on mount
+  useEffect(() => {
+    onAmountChange?.(selectedAmount);
+  }, []);
+
   const handleTierSelect = (amount: number) => {
     setSelectedAmount(amount);
     setCustomAmount(amount.toString());
+    onAmountChange?.(amount);
   };
 
   const handleCustomAmountChange = (value: string) => {
@@ -39,6 +46,7 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
     if (!isNaN(numValue) && numValue >= 999.90) {
       setSelectedAmount(numValue);
       setCustomAmount(value);
+      onAmountChange?.(numValue);
     } else {
       setCustomAmount(value);
     }
@@ -194,32 +202,6 @@ export default function InvestmentAmount({ formManager }: InvestmentAmountProps)
           </Button>
         </motion.div>
       </motion.div>
-
-      {selectedAmount >= 999.90 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg p-4 z-50">
-          <div className="max-w-xl mx-auto space-y-1.5">
-            <div className="flex justify-between items-center">
-              <p className="text-xs text-muted-foreground">Total Investment</p>
-              <p className="text-sm font-semibold">{formatCurrency(selectedAmount)}</p>
-            </div>
-            <div className="flex justify-between items-center">
-              <p className="text-xs text-muted-foreground">Bonus Shares</p>
-              <p className="text-sm font-semibold">
-                <span className="text-success">({calculation.bonusPercentage}%)</span> {formatNumber(calculation.bonusShares)}
-              </p>
-            </div>
-            <div className="flex justify-between items-center">
-              <p className="text-xs text-muted-foreground">Effective Share Price</p>
-              <p className="text-sm font-semibold flex items-center gap-1">
-                <span className="text-muted-foreground line-through decoration-red-500 text-xs">
-                  {formatCurrency(SHARE_PRICE)}
-                </span>
-                <span className="text-success">{formatCurrency(calculation.effectivePrice)}</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }

@@ -1,16 +1,17 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { CheckCircle, Edit2 } from "lucide-react";
 import { useInvestmentForm } from "@/hooks/use-investment-form";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import InvestorProfile from "./InvestorProfile";
 import InvestmentAmount from "./InvestmentAmount";
 import InvestorInformation from "./InvestorInformation";
-import { formatCurrency } from "@/lib/investment-calculations";
+import { formatCurrency, formatNumber, calculateInvestment, SHARE_PRICE } from "@/lib/investment-calculations";
 
 export default function InvestmentForm() {
   const formManager = useInvestmentForm();
   const [openStep, setOpenStep] = useState<string>("step-1");
+  const [currentAmount, setCurrentAmount] = useState<number | null>(null);
 
   // Auto-expand next step when current step is completed
   useEffect(() => {
@@ -25,6 +26,29 @@ export default function InvestmentForm() {
   const handleAccordionChange = (value: string) => {
     setOpenStep(value);
   };
+
+  // Callback to receive live investment amount updates from InvestmentAmount component
+  const handleAmountChange = (amount: number) => {
+    setCurrentAmount(amount);
+  };
+
+  // Determine which amount to display in sticky footer
+  // On Step 2: use live currentAmount for real-time updates
+  // On Step 3: use saved formData amount since user is no longer editing
+  const displayAmount = useMemo(() => {
+    if (openStep === "step-2" && currentAmount !== null && currentAmount >= 999.90) {
+      return currentAmount;
+    }
+    if (openStep === "step-3" && formManager.formData.investmentAmount?.amount) {
+      return formManager.formData.investmentAmount.amount;
+    }
+    return null;
+  }, [openStep, currentAmount, formManager.formData.investmentAmount?.amount]);
+
+  // Calculate investment details for sticky footer
+  const calculation = useMemo(() => {
+    return displayAmount ? calculateInvestment(displayAmount) : null;
+  }, [displayAmount]);
 
   return (
     <div className="min-h-screen py-4 sm:py-8 px-3 sm:px-4 bg-background">
@@ -105,7 +129,7 @@ export default function InvestmentForm() {
               </AccordionTrigger>
               <AccordionContent>
                 <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-                  <InvestmentAmount formManager={formManager} />
+                  <InvestmentAmount formManager={formManager} onAmountChange={handleAmountChange} />
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -145,6 +169,34 @@ export default function InvestmentForm() {
             </AccordionItem>
           </Accordion>
         </motion.div>
+
+        {/* Sticky Investment Summary - Shows on Step 2 and Step 3 */}
+        {displayAmount && calculation && (openStep === "step-2" || openStep === "step-3") && (
+          <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg p-4 z-50">
+            <div className="max-w-xl mx-auto space-y-1.5">
+              <div className="flex justify-between items-center">
+                <p className="text-xs text-muted-foreground">Total Investment</p>
+                <p className="text-sm font-semibold">{formatCurrency(displayAmount)}</p>
+              </div>
+              <div className="flex justify-between items-center">
+                <p className="text-xs text-muted-foreground">Bonus Shares</p>
+                <p className="text-sm font-semibold">
+                  <span className="text-success">({calculation.bonusPercentage}%)</span>{" "}
+                  {formatNumber(calculation.bonusShares)}
+                </p>
+              </div>
+              <div className="flex justify-between items-center">
+                <p className="text-xs text-muted-foreground">Effective Share Price</p>
+                <p className="text-sm font-semibold flex items-center gap-1">
+                  <span className="text-muted-foreground line-through decoration-red-500 text-xs">
+                    {formatCurrency(SHARE_PRICE)}
+                  </span>
+                  <span className="text-success">{formatCurrency(calculation.effectivePrice)}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
