@@ -35,12 +35,20 @@ export default function InvestmentForm() {
       else if (openStep === "step-3") ref = step3Ref;
       
       if (ref?.current) {
-        ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
+        // Use nearest to ensure it scrolls into view, and start to align to top
+        ref.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        // Then scroll window to ensure the step header is at the top
+        setTimeout(() => {
+          const rect = ref.current?.getBoundingClientRect();
+          if (rect) {
+            window.scrollBy({ top: rect.top - 20, behavior: "smooth" });
+          }
+        }, 50);
       }
     };
     
-    // Small delay to allow accordion animation to start
-    const timer = setTimeout(scrollToStep, 100);
+    // Delay to allow accordion animation to complete
+    const timer = setTimeout(scrollToStep, 300);
     return () => clearTimeout(timer);
   }, [openStep]);
 
