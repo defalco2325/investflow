@@ -133,7 +133,7 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
               <span className="text-xs text-muted-foreground">No P.O. Boxes Allowed</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
               <FormField
                 control={form.control}
                 name="streetAddress"
@@ -173,7 +173,7 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
               <FormField
                 control={form.control}
                 name="city"
@@ -213,7 +213,7 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
               <FormField
                 control={form.control}
                 name="country"
@@ -288,13 +288,13 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
               <FormField
                 control={form.control}
                 name="dateOfBirth"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Date of Birth</FormLabel>
+                    <FormLabel className="min-h-5">Date of Birth</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
@@ -313,7 +313,7 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
                 name="tinOrSSN"
                 render={({ field }) => (
                   <FormItem>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between min-h-5">
                       <FormLabel>TIN or SSN</FormLabel>
                       <Button
                         type="button"
@@ -353,7 +353,7 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
           <div className="space-y-4">
             <h4 className="text-md font-semibold text-foreground">Joint Holder Information</h4>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
               <FormField
                 control={form.control}
                 name="secondInvestor.firstName"
@@ -393,7 +393,7 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
               <FormField
                 control={form.control}
                 name="secondInvestor.streetAddress"
@@ -433,7 +433,7 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
               <FormField
                 control={form.control}
                 name="secondInvestor.city"
@@ -473,7 +473,7 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
               <FormField
                 control={form.control}
                 name="secondInvestor.country"
@@ -548,13 +548,13 @@ export default function JointForm({ formManager, onUpdate }: JointFormProps) {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
               <FormField
                 control={form.control}
                 name="secondInvestor.dateOfBirth"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Date of Birth</FormLabel>
+                    <FormLabel className="min-h-5">Date of Birth</FormLabel>
                     <FormControl>
                       <Input
                         {...field}

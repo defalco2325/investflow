@@ -92,7 +92,7 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           {/* IRA Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             <FormField
               control={form.control}
               name="iraType"
@@ -158,7 +158,7 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
           />
 
           {/* Address Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             <FormField
               control={form.control}
               name="streetAddress"
@@ -198,7 +198,7 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             <FormField
               control={form.control}
               name="city"
@@ -238,7 +238,7 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             <FormField
               control={form.control}
               name="country"
@@ -314,13 +314,13 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
           </div>
 
           {/* Personal Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             <FormField
               control={form.control}
               name="dateOfBirth"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date of Birth</FormLabel>
+                  <FormLabel className="min-h-5">Date of Birth</FormLabel>
                   <FormControl>
                     <Input
                       {...field}

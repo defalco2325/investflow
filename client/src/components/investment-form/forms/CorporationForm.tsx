@@ -90,7 +90,7 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             <FormField
               control={form.control}
               name="entityName"
@@ -136,7 +136,7 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             <FormField
               control={form.control}
               name="streetAddress"
@@ -176,7 +176,7 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             <FormField
               control={form.control}
               name="city"
@@ -216,7 +216,7 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             <FormField
               control={form.control}
               name="country"
@@ -291,7 +291,7 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
             <FormField
               control={form.control}
               name="taxId"
