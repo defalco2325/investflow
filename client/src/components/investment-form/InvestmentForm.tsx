@@ -6,6 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import InvestorProfile from "./InvestorProfile";
 import InvestmentAmount from "./InvestmentAmount";
 import InvestorInformation from "./InvestorInformation";
+import { CountUpNumber } from "./CountUpNumber";
 import { formatCurrency, formatNumber, calculateInvestment, SHARE_PRICE } from "@/lib/investment-calculations";
 
 export default function InvestmentForm() {
@@ -228,16 +229,20 @@ export default function InvestmentForm() {
                 <div className="flex justify-between items-center">
                   <p className="text-xs text-muted-foreground">Total Investment</p>
                   <p className="text-sm font-semibold">
-                    {formManager.isStepComplete(2) && displayAmount ? formatCurrency(displayAmount) : "$0.00"}
+                    {displayAmount ? formatCurrency(displayAmount) : "$0.00"}
                   </p>
                 </div>
                 <div className="flex justify-between items-center">
                   <p className="text-xs text-muted-foreground">Bonus Shares</p>
                   <p className="text-sm font-semibold">
-                    {formManager.isStepComplete(2) && calculation ? (
+                    {calculation ? (
                       <>
                         <span className="text-success">({calculation.bonusPercentage}%)</span>{" "}
-                        {formatNumber(calculation.bonusShares)}
+                        <CountUpNumber 
+                          end={calculation.bonusShares} 
+                          duration={600}
+                          decimals={0}
+                        />
                       </>
                     ) : (
                       <span>(0%) 0</span>
@@ -247,7 +252,13 @@ export default function InvestmentForm() {
                 <div className="flex justify-between items-center">
                   <p className="text-xs text-muted-foreground">Total Shares</p>
                   <p className="text-sm font-semibold">
-                    {formManager.isStepComplete(2) && calculation ? formatNumber(calculation.totalShares) : "0"}
+                    {calculation ? (
+                      <CountUpNumber 
+                        end={calculation.totalShares} 
+                        duration={600}
+                        decimals={0}
+                      />
+                    ) : "0"}
                   </p>
                 </div>
                 <div className="flex justify-between items-center">
@@ -257,7 +268,7 @@ export default function InvestmentForm() {
                       {formatCurrency(SHARE_PRICE)}
                     </span>
                     <span className="text-success">
-                      {formManager.isStepComplete(2) && calculation ? formatCurrency(calculation.effectivePrice) : formatCurrency(SHARE_PRICE)}
+                      {calculation ? formatCurrency(calculation.effectivePrice) : formatCurrency(SHARE_PRICE)}
                     </span>
                   </p>
                 </div>
