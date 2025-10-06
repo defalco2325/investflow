@@ -222,24 +222,32 @@ export default function InvestmentForm() {
           </Accordion>
 
           {/* Sticky Investment Summary - Shows on Step 2 and Step 3 */}
-          {displayAmount && calculation && (openStep === "step-2" || openStep === "step-3") && (
+          {(openStep === "step-2" || openStep === "step-3") && (
             <div className="sticky bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg p-4 z-50 -mx-px" data-testid="sticky-investment-summary">
               <div className="space-y-1.5">
                 <div className="flex justify-between items-center">
                   <p className="text-xs text-muted-foreground">Total Investment</p>
-                  <p className="text-sm font-semibold">{formatCurrency(displayAmount)}</p>
+                  <p className="text-sm font-semibold">
+                    {formManager.isStepComplete(2) && displayAmount ? formatCurrency(displayAmount) : "$0.00"}
+                  </p>
                 </div>
                 <div className="flex justify-between items-center">
                   <p className="text-xs text-muted-foreground">Bonus Shares</p>
                   <p className="text-sm font-semibold">
-                    <span className="text-success">({calculation.bonusPercentage}%)</span>{" "}
-                    {formatNumber(calculation.bonusShares)}
+                    {formManager.isStepComplete(2) && calculation ? (
+                      <>
+                        <span className="text-success">({calculation.bonusPercentage}%)</span>{" "}
+                        {formatNumber(calculation.bonusShares)}
+                      </>
+                    ) : (
+                      <span>(0%) 0</span>
+                    )}
                   </p>
                 </div>
                 <div className="flex justify-between items-center">
                   <p className="text-xs text-muted-foreground">Total Shares</p>
                   <p className="text-sm font-semibold">
-                    {formatNumber(calculation.totalShares)}
+                    {formManager.isStepComplete(2) && calculation ? formatNumber(calculation.totalShares) : "0"}
                   </p>
                 </div>
                 <div className="flex justify-between items-center">
@@ -248,7 +256,9 @@ export default function InvestmentForm() {
                     <span className="text-muted-foreground line-through decoration-red-500 text-xs">
                       {formatCurrency(SHARE_PRICE)}
                     </span>
-                    <span className="text-success">{formatCurrency(calculation.effectivePrice)}</span>
+                    <span className="text-success">
+                      {formManager.isStepComplete(2) && calculation ? formatCurrency(calculation.effectivePrice) : formatCurrency(SHARE_PRICE)}
+                    </span>
                   </p>
                 </div>
               </div>
