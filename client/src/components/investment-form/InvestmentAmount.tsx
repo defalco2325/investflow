@@ -88,6 +88,17 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
     }
   };
 
+  const getBonusBadgeColor = (index: number) => {
+    const colors = [
+      'bg-yellow-300',
+      'bg-yellow-400',
+      'bg-orange-500',
+      'bg-orange-600',
+      'bg-orange-700'
+    ];
+    return colors[index] || colors[colors.length - 1];
+  };
+
   return (
     <>
       <motion.div 
@@ -109,7 +120,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
 
       <RadioGroup value={selectedAmount.toString()} onValueChange={(val) => handleTierSelect(Number(val))}>
         <motion.div className="space-y-3" variants={containerVariants}>
-          {PRICING_TIERS.map((tier) => {
+          {PRICING_TIERS.map((tier, index) => {
             const isSelected = selectedAmount === tier.amount;
             const tierCalc = calculateInvestment(tier.amount);
             
@@ -142,7 +153,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
                     </p>
                   </div>
                 </div>
-                <div className="bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-semibold text-xs sm:text-sm whitespace-nowrap ml-auto sm:ml-0 shadow-md">
+                <div className={`${getBonusBadgeColor(index)} text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-semibold text-xs sm:text-sm whitespace-nowrap ml-auto sm:ml-0 shadow-md`}>
                   {tier.bonusPercentage}% Bonus Shares
                 </div>
               </motion.div>
