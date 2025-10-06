@@ -102,7 +102,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
   return (
     <>
       <motion.div 
-        className="space-y-6 pb-32"
+        className="space-y-6"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
