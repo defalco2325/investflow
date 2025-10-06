@@ -163,11 +163,7 @@ export default function InvestmentForm() {
                 </div>
               </AccordionTrigger>
               <AccordionContent>
-                <div className={`px-4 sm:px-6 ${
-                  displayAmount && calculation && openStep === "step-2" 
-                    ? "pb-28 sm:pb-32" 
-                    : "pb-4 sm:pb-6"
-                }`}>
+                <div className="px-4 sm:px-6 pb-4 sm:pb-6">
                   <InvestmentAmount formManager={formManager} onAmountChange={handleAmountChange} />
                 </div>
               </AccordionContent>
