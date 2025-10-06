@@ -19,20 +19,13 @@ export interface UseInvestmentFormReturn {
   resetForm: () => void;
 }
 
-const initialFormData: Partial<InvestmentFormData> = {
-  investmentAmount: {
-    amount: 99500,
-    tier: INVESTMENT_TIERS[INVESTMENT_TIERS.length - 1],
-  },
-};
+const initialFormData: Partial<InvestmentFormData> = {};
 
 export function useInvestmentForm(): UseInvestmentFormReturn {
   const [currentStep, setCurrentStep] = useState<FormStep>(1);
   const [completedSteps, setCompletedSteps] = useState<Set<FormStep>>(new Set());
   const [formData, setFormData] = useState<Partial<InvestmentFormData>>(initialFormData);
-  const [calculation, setCalculation] = useState<InvestmentCalculation | null>(
-    calculateInvestment(99500, false)
-  );
+  const [calculation, setCalculation] = useState<InvestmentCalculation | null>(null);
 
   const goToStep = useCallback((step: FormStep) => {
     if (canGoToStep(step)) {
@@ -95,7 +88,7 @@ export function useInvestmentForm(): UseInvestmentFormReturn {
     setCurrentStep(1);
     setCompletedSteps(new Set());
     setFormData(initialFormData);
-    setCalculation(calculateInvestment(99500, false));
+    setCalculation(null);
   }, []);
 
   return {

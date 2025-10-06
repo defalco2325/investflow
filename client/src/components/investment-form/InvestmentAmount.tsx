@@ -33,22 +33,23 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
   const { updateInvestmentAmount, formData } = formManager;
   const isAccredited = formData.investorProfile?.isAccredited || false;
   const PRICING_TIERS = isAccredited ? PRICING_TIERS_ACCREDITED : PRICING_TIERS_NON_ACCREDITED;
-  const defaultAmount = PRICING_TIERS[0].amount;
-  const [selectedAmount, setSelectedAmount] = useState(formData.investmentAmount?.amount || defaultAmount);
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(formData.investmentAmount?.amount || null);
   const [customAmount, setCustomAmount] = useState("");
 
-  const calculation = calculateInvestment(selectedAmount, isAccredited);
-
-  // Notify parent of initial amount on mount
-  useEffect(() => {
-    onAmountChange?.(selectedAmount);
-  }, []);
+  const calculation = selectedAmount ? calculateInvestment(selectedAmount, isAccredited) : null;
 
   const handleTierSelect = (amount: number) => {
     setSelectedAmount(amount);
     setCustomAmount(amount.toString());
     onAmountChange?.(amount);
   };
+  
+  // Notify parent when amount changes
+  useEffect(() => {
+    if (selectedAmount) {
+      onAmountChange?.(selectedAmount);
+    }
+  }, [selectedAmount, onAmountChange]);
 
   const handleCustomAmountChange = (value: string) => {
     const numValue = parseFloat(value.replace(/[^0-9.]/g, ""));
@@ -62,7 +63,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
   };
 
   const handleContinue = () => {
-    if (selectedAmount >= 999.90) {
+    if (selectedAmount && selectedAmount >= 999.90) {
       updateInvestmentAmount(selectedAmount);
     }
   };
@@ -118,7 +119,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
         </div>
       </motion.div>
 
-      <RadioGroup value={selectedAmount.toString()} onValueChange={(val) => handleTierSelect(Number(val))}>
+      <RadioGroup value={selectedAmount?.toString() || ""} onValueChange={(val) => handleTierSelect(Number(val))}>
         <motion.div className="space-y-3" variants={containerVariants}>
           {PRICING_TIERS.map((tier, index) => {
             const isSelected = selectedAmount === tier.amount;
@@ -177,7 +178,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
         </div>
       </motion.div>
 
-      {selectedAmount >= 999.90 && (
+      {selectedAmount && selectedAmount >= 999.90 && calculation && (
         <motion.div
           className="space-y-3 sm:space-y-4 pt-3 sm:pt-4 border-t border-border"
           initial={{ opacity: 0, y: 10 }}
@@ -229,7 +230,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
           <Button 
             onClick={handleContinue}
             className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-4 sm:py-6 rounded-lg transition-all duration-200 text-base sm:text-lg hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
-            disabled={selectedAmount < 999.90}
+            disabled={!selectedAmount || selectedAmount < 999.90}
             data-testid="button-continue-step2"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out"></span>
