@@ -337,11 +337,11 @@ export default function CorporationForm({ formManager, onUpdate }: CorporationFo
 
           <Button 
             type="submit" 
-            className="premium-button w-full relative overflow-hidden group"
+            className="premium-button w-full relative overflow-hidden"
             disabled={isSubmitting}
             data-testid="button-submit-corporation-investment"
           >
-            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out"></span>
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent shimmer-continuous"></span>
             <span className="relative z-10">{isSubmitting ? "Submitting..." : "Continue"}</span>
           </Button>
           
