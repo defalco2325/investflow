@@ -14,19 +14,19 @@ interface InvestmentAmountProps {
 }
 
 const PRICING_TIERS_NON_ACCREDITED = [
-  { amount: 1000, bonusPercentage: 5, label: "MEMBER", displayAmount: "$1,000", originalPrice: 1050 },
-  { amount: 2500, bonusPercentage: 10, label: "SELECT", displayAmount: "$2,500", originalPrice: 2750 },
-  { amount: 5000, bonusPercentage: 25, label: "ELITE", displayAmount: "$5,000", originalPrice: 6250 },
-  { amount: 10000, bonusPercentage: 50, label: "PREMIER", displayAmount: "$10,000", originalPrice: 15000 },
-  { amount: 25000, bonusPercentage: 80, label: "PRESIDENTIAL", displayAmount: "$25,000", originalPrice: 45000 },
+  { amount: 1000, bonusPercentage: 5, label: "MEMBER", displayAmount: "$1,000" },
+  { amount: 2500, bonusPercentage: 10, label: "SELECT", displayAmount: "$2,500" },
+  { amount: 5000, bonusPercentage: 25, label: "ELITE", displayAmount: "$5,000" },
+  { amount: 10000, bonusPercentage: 50, label: "PREMIER", displayAmount: "$10,000" },
+  { amount: 25000, bonusPercentage: 80, label: "PRESIDENTIAL", displayAmount: "$25,000" },
 ];
 
 const PRICING_TIERS_ACCREDITED = [
-  { amount: 10000, bonusPercentage: 5, label: "MEMBER", displayAmount: "$10,000", originalPrice: 10500 },
-  { amount: 25000, bonusPercentage: 10, label: "SELECT", displayAmount: "$25,000", originalPrice: 27500 },
-  { amount: 50000, bonusPercentage: 25, label: "ELITE", displayAmount: "$50,000", originalPrice: 62500 },
-  { amount: 100000, bonusPercentage: 50, label: "PREMIER", displayAmount: "$100,000", originalPrice: 150000 },
-  { amount: 200000, bonusPercentage: 80, label: "PRESIDENTIAL", displayAmount: "$200,000", originalPrice: 360000 },
+  { amount: 10000, bonusPercentage: 5, label: "MEMBER", displayAmount: "$10,000" },
+  { amount: 25000, bonusPercentage: 10, label: "SELECT", displayAmount: "$25,000" },
+  { amount: 50000, bonusPercentage: 25, label: "ELITE", displayAmount: "$50,000" },
+  { amount: 100000, bonusPercentage: 50, label: "PREMIER", displayAmount: "$100,000" },
+  { amount: 200000, bonusPercentage: 80, label: "PRESIDENTIAL", displayAmount: "$200,000" },
 ];
 
 export default function InvestmentAmount({ formManager, onAmountChange }: InvestmentAmountProps) {
@@ -141,14 +141,11 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
                 <div className="flex items-center space-x-3">
                   <RadioGroupItem value={tier.amount.toString()} id={`tier-${tier.amount}`} />
                   <div>
-                    <p className="font-semibold text-sm sm:text-base">{tier.label}</p>
-                    <div className="flex items-center gap-2">
-                      <p className="text-xs sm:text-sm text-muted-foreground line-through decoration-red-500">
-                        {formatCurrency(tier.originalPrice)}
-                      </p>
-                      <p className="text-xs sm:text-sm font-semibold text-foreground">{tier.displayAmount}</p>
-                    </div>
-                    <p className="text-xs sm:text-sm text-success">
+                    <p className="font-semibold text-base sm:text-lg">{tier.displayAmount}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground line-through decoration-red-500">
+                      {formatNumber(tierCalc.baseShares)} Shares
+                    </p>
+                    <p className="text-xs sm:text-sm text-success font-medium">
                       {formatNumber(tierCalc.totalShares)} Shares
                     </p>
                   </div>
