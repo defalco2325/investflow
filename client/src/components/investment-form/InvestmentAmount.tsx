@@ -13,20 +13,28 @@ interface InvestmentAmountProps {
   onAmountChange?: (amount: number) => void;
 }
 
-const PRICING_TIERS = [
-  { amount: 1500, bonusPercentage: 5, label: "MEMBER", displayAmount: "$1,500", originalPrice: 1575 },
-  { amount: 3500, bonusPercentage: 10, label: "SELECT", displayAmount: "$3,500", originalPrice: 3850 },
-  { amount: 7500, bonusPercentage: 15, label: "ELITE", displayAmount: "$7,500", originalPrice: 8625 },
-  { amount: 9500, bonusPercentage: 25, label: "PREMIER", displayAmount: "$9,500", originalPrice: 11875 },
-  { amount: 24950, bonusPercentage: 50, label: "PRESIDENTIAL", displayAmount: "$24,950", originalPrice: 37425 },
-  { amount: 49500, bonusPercentage: 80, label: "TITANIUM", displayAmount: "$49,500", originalPrice: 89100 },
-  { amount: 99500, bonusPercentage: 120, label: "IMPERIAL", displayAmount: "$99,500", originalPrice: 218900 },
-  { amount: 199500, bonusPercentage: 150, label: "SOVEREIGN", displayAmount: "$199,500", originalPrice: 498750 },
+const PRICING_TIERS_NON_ACCREDITED = [
+  { amount: 1000, bonusPercentage: 5, label: "MEMBER", displayAmount: "$1,000", originalPrice: 1050 },
+  { amount: 2500, bonusPercentage: 10, label: "SELECT", displayAmount: "$2,500", originalPrice: 2750 },
+  { amount: 5000, bonusPercentage: 25, label: "ELITE", displayAmount: "$5,000", originalPrice: 6250 },
+  { amount: 10000, bonusPercentage: 50, label: "PREMIER", displayAmount: "$10,000", originalPrice: 15000 },
+  { amount: 25000, bonusPercentage: 80, label: "PRESIDENTIAL", displayAmount: "$25,000", originalPrice: 45000 },
+];
+
+const PRICING_TIERS_ACCREDITED = [
+  { amount: 10000, bonusPercentage: 5, label: "MEMBER", displayAmount: "$10,000", originalPrice: 10500 },
+  { amount: 25000, bonusPercentage: 10, label: "SELECT", displayAmount: "$25,000", originalPrice: 27500 },
+  { amount: 50000, bonusPercentage: 25, label: "ELITE", displayAmount: "$50,000", originalPrice: 62500 },
+  { amount: 100000, bonusPercentage: 50, label: "PREMIER", displayAmount: "$100,000", originalPrice: 150000 },
+  { amount: 200000, bonusPercentage: 80, label: "PRESIDENTIAL", displayAmount: "$200,000", originalPrice: 360000 },
 ];
 
 export default function InvestmentAmount({ formManager, onAmountChange }: InvestmentAmountProps) {
   const { updateInvestmentAmount, formData } = formManager;
-  const [selectedAmount, setSelectedAmount] = useState(formData.investmentAmount?.amount || 1500);
+  const isAccredited = formData.investorProfile?.isAccredited || false;
+  const PRICING_TIERS = isAccredited ? PRICING_TIERS_ACCREDITED : PRICING_TIERS_NON_ACCREDITED;
+  const defaultAmount = PRICING_TIERS[0].amount;
+  const [selectedAmount, setSelectedAmount] = useState(formData.investmentAmount?.amount || defaultAmount);
   const [customAmount, setCustomAmount] = useState("");
 
   const calculation = calculateInvestment(selectedAmount);
