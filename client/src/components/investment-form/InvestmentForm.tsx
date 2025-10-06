@@ -52,8 +52,18 @@ export default function InvestmentForm() {
     return () => clearTimeout(timer);
   }, [openStep]);
 
-  // Handle accordion value change - no gating, allow free navigation
+  // Handle accordion value change with gating logic
   const handleAccordionChange = (value: string) => {
+    // Gate Step 2 - can only open if Step 1 is complete
+    if (value === "step-2" && !formManager.isStepComplete(1)) {
+      return;
+    }
+    
+    // Gate Step 3 - can only open if Step 2 is complete
+    if (value === "step-3" && !formManager.isStepComplete(2)) {
+      return;
+    }
+    
     setOpenStep(value);
   };
 
@@ -132,7 +142,8 @@ export default function InvestmentForm() {
             <AccordionItem value="step-2" className="border-b border-border">
               <div ref={step2Ref}>
                 <AccordionTrigger 
-                  className="px-4 sm:px-6 py-3 sm:py-4 hover:no-underline"
+                  className={`px-4 sm:px-6 py-3 sm:py-4 hover:no-underline ${!formManager.isStepComplete(1) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={!formManager.isStepComplete(1)}
                 >
                   <div className="flex items-center justify-between w-full pr-2 sm:pr-4">
                     <div className="flex items-center space-x-2 sm:space-x-3 flex-wrap">
@@ -174,7 +185,8 @@ export default function InvestmentForm() {
             <AccordionItem value="step-3" className="border-b-0">
               <div ref={step3Ref}>
                 <AccordionTrigger 
-                  className="px-4 sm:px-6 py-3 sm:py-4 hover:no-underline"
+                  className={`px-4 sm:px-6 py-3 sm:py-4 hover:no-underline ${!formManager.isStepComplete(2) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={!formManager.isStepComplete(2)}
                 >
                   <div className="flex items-center justify-between w-full pr-2 sm:pr-4">
                     <div className="flex items-center space-x-2 sm:space-x-3">
