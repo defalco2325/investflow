@@ -201,6 +201,12 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
                 />
               </p>
             </div>
+            <div className="flex justify-between items-center">
+              <p className="text-xs sm:text-sm text-muted-foreground">Total Shares</p>
+              <p className="text-base sm:text-lg font-semibold">
+                {formatNumber(calculation.totalShares)}
+              </p>
+            </div>
             <div className="flex justify-between items-center gap-2">
               <p className="text-xs sm:text-sm text-muted-foreground">Effective Share Price</p>
               <p className="text-base sm:text-lg font-semibold flex items-center flex-wrap justify-end gap-1 sm:gap-2">

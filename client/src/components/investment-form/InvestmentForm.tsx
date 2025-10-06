@@ -237,6 +237,12 @@ export default function InvestmentForm() {
                   </p>
                 </div>
                 <div className="flex justify-between items-center">
+                  <p className="text-xs text-muted-foreground">Total Shares</p>
+                  <p className="text-sm font-semibold">
+                    {formatNumber(calculation.totalShares)}
+                  </p>
+                </div>
+                <div className="flex justify-between items-center">
                   <p className="text-xs text-muted-foreground">Effective Share Price</p>
                   <p className="text-sm font-semibold flex items-center gap-1">
                     <span className="text-muted-foreground line-through decoration-red-500 text-xs">
