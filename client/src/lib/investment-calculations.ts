@@ -1,22 +1,33 @@
 import { InvestmentTier, InvestmentCalculation } from "@shared/schema";
 
-export const INVESTMENT_TIERS: InvestmentTier[] = [
-  { amount: 1500, bonusPercentage: 5, label: "MEMBER" },
-  { amount: 3500, bonusPercentage: 10, label: "SELECT" },
-  { amount: 7500, bonusPercentage: 15, label: "ELITE" },
-  { amount: 9500, bonusPercentage: 25, label: "PREMIER" },
-  { amount: 24950, bonusPercentage: 50, label: "PRESIDENTIAL" },
-  { amount: 49500, bonusPercentage: 80, label: "TITANIUM" },
-  { amount: 99500, bonusPercentage: 120, label: "IMPERIAL" },
-  { amount: 199500, bonusPercentage: 150, label: "SOVEREIGN" },
+export const INVESTMENT_TIERS_NON_ACCREDITED: InvestmentTier[] = [
+  { amount: 1000, bonusPercentage: 5, label: "MEMBER" },
+  { amount: 2500, bonusPercentage: 10, label: "SELECT" },
+  { amount: 5000, bonusPercentage: 25, label: "ELITE" },
+  { amount: 10000, bonusPercentage: 50, label: "PREMIER" },
+  { amount: 25000, bonusPercentage: 80, label: "PRESIDENTIAL" },
 ];
+
+export const INVESTMENT_TIERS_ACCREDITED: InvestmentTier[] = [
+  { amount: 10000, bonusPercentage: 5, label: "MEMBER" },
+  { amount: 25000, bonusPercentage: 10, label: "SELECT" },
+  { amount: 50000, bonusPercentage: 25, label: "ELITE" },
+  { amount: 100000, bonusPercentage: 50, label: "PREMIER" },
+  { amount: 200000, bonusPercentage: 80, label: "PRESIDENTIAL" },
+];
+
+// Legacy export for backward compatibility
+export const INVESTMENT_TIERS = INVESTMENT_TIERS_NON_ACCREDITED;
 
 export const SHARE_PRICE = 0.30;
 
-export function calculateInvestment(amount: number): InvestmentCalculation {
+export function calculateInvestment(amount: number, isAccredited: boolean = false): InvestmentCalculation {
+  // Use appropriate tier based on accreditation status
+  const tiers = isAccredited ? INVESTMENT_TIERS_ACCREDITED : INVESTMENT_TIERS_NON_ACCREDITED;
+  
   // Find the appropriate tier
   let bonusPercentage = 0;
-  for (const tier of INVESTMENT_TIERS) {
+  for (const tier of tiers) {
     if (amount >= tier.amount) {
       bonusPercentage = tier.bonusPercentage;
     }
@@ -37,9 +48,10 @@ export function calculateInvestment(amount: number): InvestmentCalculation {
   };
 }
 
-export function getInvestmentTier(amount: number): InvestmentTier {
-  let selectedTier = INVESTMENT_TIERS[0];
-  for (const tier of INVESTMENT_TIERS) {
+export function getInvestmentTier(amount: number, isAccredited: boolean = false): InvestmentTier {
+  const tiers = isAccredited ? INVESTMENT_TIERS_ACCREDITED : INVESTMENT_TIERS_NON_ACCREDITED;
+  let selectedTier = tiers[0];
+  for (const tier of tiers) {
     if (amount >= tier.amount) {
       selectedTier = tier;
     }

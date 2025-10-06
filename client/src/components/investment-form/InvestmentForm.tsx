@@ -87,8 +87,9 @@ export default function InvestmentForm() {
 
   // Calculate investment details for sticky footer
   const calculation = useMemo(() => {
-    return displayAmount ? calculateInvestment(displayAmount) : null;
-  }, [displayAmount]);
+    const isAccredited = formManager.formData.investorProfile?.isAccredited || false;
+    return displayAmount ? calculateInvestment(displayAmount, isAccredited) : null;
+  }, [displayAmount, formManager.formData.investorProfile?.isAccredited]);
 
   return (
     <div className="min-h-screen py-4 sm:py-8 px-3 sm:px-4 bg-background">

@@ -31,7 +31,7 @@ export function useInvestmentForm(): UseInvestmentFormReturn {
   const [completedSteps, setCompletedSteps] = useState<Set<FormStep>>(new Set());
   const [formData, setFormData] = useState<Partial<InvestmentFormData>>(initialFormData);
   const [calculation, setCalculation] = useState<InvestmentCalculation | null>(
-    calculateInvestment(99500)
+    calculateInvestment(99500, false)
   );
 
   const goToStep = useCallback((step: FormStep) => {
@@ -53,18 +53,22 @@ export function useInvestmentForm(): UseInvestmentFormReturn {
   }, [markStepComplete]);
 
   const updateInvestmentAmount = useCallback((amount: number) => {
-    const tier = INVESTMENT_TIERS.find(t => t.amount === amount) || INVESTMENT_TIERS[0];
-    const calc = calculateInvestment(amount);
+    setFormData(prev => {
+      const isAccredited = prev.investorProfile?.isAccredited || false;
+      const tier = INVESTMENT_TIERS.find(t => t.amount === amount) || INVESTMENT_TIERS[0];
+      const calc = calculateInvestment(amount, isAccredited);
+      
+      setCalculation(calc);
+      
+      return {
+        ...prev,
+        investmentAmount: {
+          amount,
+          tier,
+        },
+      };
+    });
     
-    setFormData(prev => ({
-      ...prev,
-      investmentAmount: {
-        amount,
-        tier,
-      },
-    }));
-    
-    setCalculation(calc);
     markStepComplete(2);
   }, [markStepComplete]);
 
@@ -91,7 +95,7 @@ export function useInvestmentForm(): UseInvestmentFormReturn {
     setCurrentStep(1);
     setCompletedSteps(new Set());
     setFormData(initialFormData);
-    setCalculation(calculateInvestment(99500));
+    setCalculation(calculateInvestment(99500, false));
   }, []);
 
   return {

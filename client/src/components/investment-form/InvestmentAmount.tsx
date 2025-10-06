@@ -37,7 +37,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
   const [selectedAmount, setSelectedAmount] = useState(formData.investmentAmount?.amount || defaultAmount);
   const [customAmount, setCustomAmount] = useState("");
 
-  const calculation = calculateInvestment(selectedAmount);
+  const calculation = calculateInvestment(selectedAmount, isAccredited);
 
   // Notify parent of initial amount on mount
   useEffect(() => {
@@ -122,7 +122,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
         <motion.div className="space-y-3" variants={containerVariants}>
           {PRICING_TIERS.map((tier, index) => {
             const isSelected = selectedAmount === tier.amount;
-            const tierCalc = calculateInvestment(tier.amount);
+            const tierCalc = calculateInvestment(tier.amount, isAccredited);
             
             return (
               <motion.div
