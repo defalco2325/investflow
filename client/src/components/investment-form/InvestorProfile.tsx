@@ -12,6 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { User, Mail, Phone, X } from "lucide-react";
+import { PrivacyDialog, TermsDialog } from "./PrivacyDialog";
 
 interface InvestorProfileProps {
   formManager: UseInvestmentFormReturn;
@@ -218,15 +219,6 @@ export default function InvestorProfile({ formManager }: InvestorProfileProps) {
                     <p className="text-xs text-muted-foreground">
                       An accredited investor is an individual or entity that meets specific financial criteria set by the SEC, such as having a net worth exceeding $1 million (excluding primary residence) or annual income over $200,000 ($300,000 for joint income).
                     </p>
-                    <a
-                      href="https://www.sec.gov/education/capitalraising/building-blocks/accredited-investor"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-primary hover:underline inline-block"
-                      data-testid="link-learn-more"
-                    >
-                      Learn more →
-                    </a>
                   </div>
                 </PopoverContent>
               </Popover>
@@ -287,14 +279,25 @@ export default function InvestorProfile({ formManager }: InvestorProfileProps) {
                   <div className="space-y-1">
                     <p className="text-sm">
                       By submitting this form and signing up for communications, you consent to receive marketing email, text & voice messages (e.g. promos, calls, voicemails, cart reminders) from Mode Mobile at the number & email provided. Consent is not a condition of purchase. Msg, voice, & data rates may apply. Msg frequency varies. Unsubscribe at any time by replying STOP or clicking the unsubscribe link (where available).{" "}
-                      <a
-                        href="/privacy"
-                        className="text-foreground hover:opacity-80 transition-opacity"
-                        data-testid="link-privacy-policy"
-                      >
-                        Privacy Policy
-                      </a>{" "}
-                      & Terms.
+                      <PrivacyDialog>
+                        <button
+                          type="button"
+                          className="text-foreground hover:opacity-80 transition-opacity underline"
+                          data-testid="link-privacy-policy"
+                        >
+                          Privacy Policy
+                        </button>
+                      </PrivacyDialog>{" "}
+                      &{" "}
+                      <TermsDialog>
+                        <button
+                          type="button"
+                          className="text-foreground hover:opacity-80 transition-opacity underline"
+                          data-testid="link-terms"
+                        >
+                          Terms
+                        </button>
+                      </TermsDialog>.
                     </p>
                   </div>
                 </div>

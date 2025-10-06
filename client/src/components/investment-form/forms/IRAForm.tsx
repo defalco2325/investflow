@@ -360,11 +360,12 @@ export default function IRAForm({ formManager, onUpdate }: IRAFormProps) {
 
           <Button 
             type="submit" 
-            className="premium-button w-full"
+            className="premium-button w-full relative overflow-hidden group"
             disabled={isSubmitting}
             data-testid="button-submit-ira-investment"
           >
-            {isSubmitting ? "Submitting..." : "Continue"}
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out"></span>
+            <span className="relative z-10">{isSubmitting ? "Submitting..." : "Continue"}</span>
           </Button>
           
           <p className="text-xs text-muted-foreground text-center">

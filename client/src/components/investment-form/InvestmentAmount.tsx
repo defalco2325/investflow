@@ -6,6 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { formatCurrency, formatNumber, calculateInvestment, SHARE_PRICE } from "@/lib/investment-calculations";
+import { CountUpNumber } from "./CountUpNumber";
 
 interface InvestmentAmountProps {
   formManager: UseInvestmentFormReturn;
@@ -13,14 +14,14 @@ interface InvestmentAmountProps {
 }
 
 const PRICING_TIERS = [
-  { amount: 1500, bonusPercentage: 5, label: "MEMBER", displayAmount: "$1,500" },
-  { amount: 3500, bonusPercentage: 10, label: "SELECT", displayAmount: "$3,500" },
-  { amount: 7500, bonusPercentage: 15, label: "ELITE", displayAmount: "$7,500" },
-  { amount: 9500, bonusPercentage: 25, label: "PREMIER", displayAmount: "$9,500" },
-  { amount: 24950, bonusPercentage: 50, label: "PRESIDENTIAL", displayAmount: "$24,950" },
-  { amount: 49500, bonusPercentage: 80, label: "TITANIUM", displayAmount: "$49,500" },
-  { amount: 99500, bonusPercentage: 120, label: "IMPERIAL", displayAmount: "$99,500" },
-  { amount: 199500, bonusPercentage: 150, label: "SOVEREIGN", displayAmount: "$199,500" },
+  { amount: 1500, bonusPercentage: 5, label: "MEMBER", displayAmount: "$1,500", originalPrice: 1575 },
+  { amount: 3500, bonusPercentage: 10, label: "SELECT", displayAmount: "$3,500", originalPrice: 3850 },
+  { amount: 7500, bonusPercentage: 15, label: "ELITE", displayAmount: "$7,500", originalPrice: 8625 },
+  { amount: 9500, bonusPercentage: 25, label: "PREMIER", displayAmount: "$9,500", originalPrice: 11875 },
+  { amount: 24950, bonusPercentage: 50, label: "PRESIDENTIAL", displayAmount: "$24,950", originalPrice: 37425 },
+  { amount: 49500, bonusPercentage: 80, label: "TITANIUM", displayAmount: "$49,500", originalPrice: 89100 },
+  { amount: 99500, bonusPercentage: 120, label: "IMPERIAL", displayAmount: "$99,500", originalPrice: 218900 },
+  { amount: 199500, bonusPercentage: 150, label: "SOVEREIGN", displayAmount: "$199,500", originalPrice: 498750 },
 ];
 
 export default function InvestmentAmount({ formManager, onAmountChange }: InvestmentAmountProps) {
@@ -122,13 +123,18 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
                   <RadioGroupItem value={tier.amount.toString()} id={`tier-${tier.amount}`} />
                   <div>
                     <p className="font-semibold text-sm sm:text-base">{tier.label}</p>
-                    <p className="text-xs sm:text-sm text-muted-foreground">{tier.displayAmount}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs sm:text-sm text-muted-foreground line-through decoration-red-500">
+                        {formatCurrency(tier.originalPrice)}
+                      </p>
+                      <p className="text-xs sm:text-sm font-semibold text-foreground">{tier.displayAmount}</p>
+                    </div>
                     <p className="text-xs sm:text-sm text-success">
                       {formatNumber(tierCalc.totalShares)} Shares
                     </p>
                   </div>
                 </div>
-                <div className="bg-[#FB8037] text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-semibold text-xs sm:text-sm whitespace-nowrap ml-auto sm:ml-0">
+                <div className="bg-gradient-to-r from-yellow-400 via-orange-500 to-orange-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-semibold text-xs sm:text-sm whitespace-nowrap ml-auto sm:ml-0 shadow-md">
                   {tier.bonusPercentage}% Bonus Shares
                 </div>
               </motion.div>
@@ -170,7 +176,13 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
             <div className="flex justify-between items-center">
               <p className="text-xs sm:text-sm text-muted-foreground">Bonus Shares</p>
               <p className="text-base sm:text-lg font-semibold">
-                <span className="text-success">({calculation.bonusPercentage}%)</span> {formatNumber(calculation.bonusShares)}
+                <span className="text-success">({calculation.bonusPercentage}%)</span>{" "}
+                <CountUpNumber 
+                  end={calculation.bonusShares} 
+                  duration={600}
+                  decimals={0}
+                  className="text-foreground"
+                />
               </p>
             </div>
             <div className="flex justify-between items-center gap-2">
@@ -194,11 +206,12 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
         <motion.div variants={itemVariants}>
           <Button 
             onClick={handleContinue}
-            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-4 sm:py-6 rounded-lg transition-all duration-200 text-base sm:text-lg hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-4 sm:py-6 rounded-lg transition-all duration-200 text-base sm:text-lg hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
             disabled={selectedAmount < 999.90}
             data-testid="button-continue-step2"
           >
-            Continue
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out"></span>
+            <span className="relative z-10">Continue</span>
           </Button>
         </motion.div>
       </motion.div>

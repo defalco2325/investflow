@@ -300,11 +300,12 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
 
           <Button 
             type="submit" 
-            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-4 sm:py-6 rounded-lg transition-all text-base sm:text-lg"
+            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-4 sm:py-6 rounded-lg transition-all text-base sm:text-lg relative overflow-hidden group"
             disabled={isSubmitting}
             data-testid="button-submit-investment"
           >
-            {isSubmitting ? "Submitting..." : "Continue"}
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out"></span>
+            <span className="relative z-10">{isSubmitting ? "Submitting..." : "Continue"}</span>
           </Button>
           
           <p className="text-[10px] sm:text-xs text-muted-foreground text-center">
