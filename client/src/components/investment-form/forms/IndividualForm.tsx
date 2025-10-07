@@ -300,7 +300,7 @@ export default function IndividualForm({ formManager, onUpdate }: IndividualForm
 
           <Button 
             type="submit" 
-            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-4 sm:py-6 rounded-lg transition-all text-base sm:text-lg relative overflow-hidden"
+            className="w-full bg-primary hover:opacity-90 text-black font-semibold py-4 sm:py-6 rounded-lg transition-all text-base sm:text-lg relative overflow-hidden"
             disabled={isSubmitting}
             data-testid="button-submit-investment"
           >

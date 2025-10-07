@@ -78,7 +78,7 @@ export default function InvestmentSidebar({ calculation, selectedAmount }: Inves
                   >
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium text-foreground">
-                        Invest {formatCurrency(tier.amount)}
+                        {tier.label} - {formatCurrency(tier.amount)}
                       </span>
                       {tier.bonusPercentage > 0 && (
                         <Badge className="bonus-badge text-white text-xs">

@@ -142,7 +142,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
                 <div className="flex items-center space-x-3">
                   <RadioGroupItem value={tier.amount.toString()} id={`tier-${tier.amount}`} />
                   <div>
-                    <p className="font-semibold text-base sm:text-lg">{tier.displayAmount}</p>
+                    <p className="font-semibold text-base sm:text-lg">{tier.displayAmount} <span className="text-xs sm:text-sm font-bold text-primary">({tier.label})</span></p>
                     <p className="text-xs sm:text-sm text-muted-foreground line-through decoration-red-500">
                       {formatNumber(tierCalc.baseShares)} Shares
                     </p>
@@ -229,7 +229,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
         <motion.div variants={itemVariants}>
           <Button 
             onClick={handleContinue}
-            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-4 sm:py-6 rounded-lg transition-all duration-200 text-base sm:text-lg hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
+            className="w-full bg-primary hover:opacity-90 text-black font-semibold py-4 sm:py-6 rounded-lg transition-all duration-200 text-base sm:text-lg hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
             disabled={!selectedAmount || selectedAmount < 999.90}
             data-testid="button-continue-step2"
           >

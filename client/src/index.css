@@ -234,7 +234,7 @@
   }
 
   .premium-button {
-    @apply bg-primary text-primary-foreground font-semibold py-4 sm:py-6 px-4 sm:px-6 text-base sm:text-lg rounded-lg transition-all duration-200;
+    @apply bg-primary text-black font-semibold py-4 sm:py-6 px-4 sm:px-6 text-base sm:text-lg rounded-lg transition-all duration-200;
   }
   
   .premium-button:hover {

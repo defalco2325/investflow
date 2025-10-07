@@ -310,7 +310,7 @@ export default function InvestorProfile({ formManager }: InvestorProfileProps) {
         <motion.div variants={itemVariants}>
           <Button 
             type="submit" 
-            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-3 sm:py-4 text-sm sm:text-base rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full bg-primary hover:opacity-90 text-black font-semibold py-3 sm:py-4 text-sm sm:text-base rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
             disabled={!isEmailValid || !form.watch("consentGiven") || !form.formState.isValid}
             data-testid="button-next-step"
           >
