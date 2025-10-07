@@ -19,33 +19,6 @@ The app features:
 
 ---
 
-## 🚀 How to Run the App in Replit
-
-### Running the Development Server
-
-The app is already configured to run in Replit! Simply:
-
-1. Click the **Run** button at the top of your Replit workspace
-2. The app will automatically start on port 5000
-3. A preview window will open showing your application
-4. Any changes you make will automatically reload (hot module replacement)
-
-### Manual Start
-
-If you need to manually start the server:
-
-```bash
-npm run dev
-```
-
-### Accessing the Preview
-
-- The preview opens automatically when you run the app
-- You can also access it from the **Preview** tool in the left sidebar
-- The app runs on `http://0.0.0.0:5000` by default
-
----
-
 ## 🎨 How to Make Edits
 
 ### Changing Text Content
