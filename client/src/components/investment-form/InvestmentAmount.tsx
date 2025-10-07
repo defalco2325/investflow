@@ -142,7 +142,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
                 <div className="flex items-center space-x-3">
                   <RadioGroupItem value={tier.amount.toString()} id={`tier-${tier.amount}`} />
                   <div>
-                    <p className="font-semibold text-base sm:text-lg">{tier.displayAmount} <span className="text-xs sm:text-sm font-bold text-primary">({tier.label})</span></p>
+                    <p className="font-semibold text-base sm:text-lg">{tier.displayAmount} <span className="text-xs sm:text-sm font-bold text-black">({tier.label})</span></p>
                     <p className="text-xs sm:text-sm text-muted-foreground line-through decoration-red-500">
                       {formatNumber(tierCalc.baseShares)} Shares
                     </p>
@@ -151,7 +151,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
                     </p>
                   </div>
                 </div>
-                <div className={`${getBonusBadgeColor(index)} text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-semibold text-xs sm:text-sm whitespace-nowrap ml-auto sm:ml-0 shadow-md`}>
+                <div className={`${getBonusBadgeColor(index)} text-black px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-semibold text-xs sm:text-sm whitespace-nowrap ml-auto sm:ml-0 shadow-md`}>
                   {tier.bonusPercentage}% Bonus Shares
                 </div>
               </motion.div>
