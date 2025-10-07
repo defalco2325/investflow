@@ -16,9 +16,10 @@ import { PrivacyDialog, TermsDialog } from "./PrivacyDialog";
 
 interface InvestorProfileProps {
   formManager: UseInvestmentFormReturn;
+  onComplete?: () => void;
 }
 
-export default function InvestorProfile({ formManager }: InvestorProfileProps) {
+export default function InvestorProfile({ formManager, onComplete }: InvestorProfileProps) {
   const { updateInvestorProfile, formData } = formManager;
   const [showAccreditedModal, setShowAccreditedModal] = useState(false);
 
@@ -44,6 +45,7 @@ export default function InvestorProfile({ formManager }: InvestorProfileProps) {
       return;
     }
     updateInvestorProfile(data);
+    onComplete?.();
   };
 
   const isEmailValid = form.watch("email") && !form.formState.errors.email;

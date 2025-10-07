@@ -134,7 +134,7 @@ export default function InvestmentForm() {
                 </AccordionTrigger>
               <AccordionContent>
                 <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-                  <InvestorProfile formManager={formManager} />
+                  <InvestorProfile formManager={formManager} onComplete={() => setOpenStep("step-2")} />
                 </div>
               </AccordionContent>
               </div>
@@ -177,7 +177,7 @@ export default function InvestmentForm() {
               </AccordionTrigger>
               <AccordionContent>
                 <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-                  <InvestmentAmount formManager={formManager} onAmountChange={handleAmountChange} />
+                  <InvestmentAmount formManager={formManager} onAmountChange={handleAmountChange} onComplete={() => setOpenStep("step-3")} />
                 </div>
               </AccordionContent>
               </div>

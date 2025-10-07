@@ -11,6 +11,7 @@ import { CountUpNumber } from "./CountUpNumber";
 interface InvestmentAmountProps {
   formManager: UseInvestmentFormReturn;
   onAmountChange?: (amount: number) => void;
+  onComplete?: () => void;
 }
 
 const PRICING_TIERS_NON_ACCREDITED = [
@@ -29,7 +30,7 @@ const PRICING_TIERS_ACCREDITED = [
   { amount: 200000, bonusPercentage: 80, label: "PRESIDENTIAL", displayAmount: "$200,000" },
 ];
 
-export default function InvestmentAmount({ formManager, onAmountChange }: InvestmentAmountProps) {
+export default function InvestmentAmount({ formManager, onAmountChange, onComplete }: InvestmentAmountProps) {
   const { updateInvestmentAmount, formData } = formManager;
   const isAccredited = formData.investorProfile?.isAccredited || false;
   const PRICING_TIERS = isAccredited ? PRICING_TIERS_ACCREDITED : PRICING_TIERS_NON_ACCREDITED;
@@ -65,6 +66,7 @@ export default function InvestmentAmount({ formManager, onAmountChange }: Invest
   const handleContinue = () => {
     if (selectedAmount && selectedAmount >= 999.90) {
       updateInvestmentAmount(selectedAmount);
+      onComplete?.();
     }
   };
 
